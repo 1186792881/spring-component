@@ -75,6 +75,9 @@ public class DelayMessageConsumer implements ApplicationListener<ContextRefreshe
         Map<String, Object> componentList = applicationContext.getBeansWithAnnotation(Component.class);
         componentList.forEach((k, v) -> classList.add(applicationContext.getType(k)));
         for (Class<?> clazz : classList) {
+            if (clazz.getSuperclass() == null) {
+                continue;
+            }
             Method[] methods = clazz.getSuperclass().getDeclaredMethods();
             for (Method method : methods) {
                 DelayMessageListener listener = method.getDeclaredAnnotation(DelayMessageListener.class);

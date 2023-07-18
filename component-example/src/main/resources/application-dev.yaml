@@ -55,3 +55,10 @@ spring:
       cache-null-values: true
       key-prefix: 'example:'
 
+# forest Http客户端
+forest:
+  backend: okhttp3             # 配置后端HTTP API为 okhttp3
+  log-enabled: true            # 打开或关闭日志（默认为 true）
+  log-request: true            # 打开/关闭Forest请求日志（默认为 true）
+  log-response-status: true    # 打开/关闭Forest响应状态日志（默认为 true）
+  log-response-content: true   # 打开/关闭Forest响应内容日志（默认为 false）

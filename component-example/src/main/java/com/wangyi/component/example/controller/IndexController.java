@@ -1,7 +1,7 @@
 package com.wangyi.component.example.controller;
 
-import cn.hutool.core.util.IdUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wangyi.component.example.client.BingClient;
 import com.wangyi.component.example.repository.mysql.entity.BumUser;
 import com.wangyi.component.example.service.IndexService;
 import com.wangyi.component.redisson.delay.DelayMessage;
@@ -59,6 +59,9 @@ public class IndexController {
 
     @Resource
     private DelayMessageUtil delayMessageUtil;
+
+    @Resource
+    private BingClient bingClient;
 
     @GetMapping("/index")
     public Result<String> index(@RequestParam String name) {
@@ -142,6 +145,12 @@ public class IndexController {
             delayMessageUtil.publish(new DelayMessage("create_org",name + i, 10));
         }
         return Result.success();
+    }
+
+    @GetMapping("/bing")
+    public Result<String> bing(String q) {
+        String index = bingClient.search(q);
+        return Result.success(index);
     }
 
 

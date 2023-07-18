@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -25,7 +26,12 @@ public class DelayMessageAspect {
     @Around("@annotation(com.wangyi.component.redisson.delay.DelayMessageListener)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        DelayMessageListener listener = method.getAnnotation(DelayMessageListener.class);
+        DelayMessageListener listener = AnnotationUtils.findAnnotation(method, DelayMessageListener.class);
+        if (null == listener) {
+            return null;
+        }
+
+        // 判断topic是否匹配
         List<DelayMessage> delayMessageList = null;
         boolean check = false;
         Object[] args = joinPoint.getArgs();
