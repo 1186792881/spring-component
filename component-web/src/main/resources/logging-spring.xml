@@ -60,7 +60,7 @@
 
     <!-- 生产环境记录日志到文件 -->
     <springProfile name="prod">
-        <root level="${logLevel:WARN}">
+        <root level="${logLevel:INFO}">
             <appender-ref ref="file"/>
         </root>
     </springProfile>
