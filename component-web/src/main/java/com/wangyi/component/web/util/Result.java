@@ -6,7 +6,7 @@ import org.slf4j.MDC;
 
 public class Result<T> {
 
-    private Integer code;
+    private String code;
 
     private String msg;
 
@@ -14,7 +14,7 @@ public class Result<T> {
 
     private String traceId;
 
-    public Result(Integer code, String msg, T data) {
+    public Result(String code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
@@ -29,23 +29,19 @@ public class Result<T> {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.name(), null);
     }
 
-    public static <T> Result<T> fail() {
-        return new Result<>(ResultCode.FAIL.getCode(), ResultCode.FAIL.name(), null);
-    }
-
-    public static <T> Result<T> fail(String msg) {
-        return new Result<>(ResultCode.FAIL.getCode(), msg, null);
-    }
-
-    public static <T> Result<T> fail(Integer code, String msg) {
+    public static <T> Result<T> fail(String code, String msg) {
         return new Result<>(code, msg, null);
     }
 
-    public Integer getCode() {
+    public static <T> Result<T> fail(String code, String msg, T data) {
+        return new Result<>(code, msg, data);
+    }
+
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

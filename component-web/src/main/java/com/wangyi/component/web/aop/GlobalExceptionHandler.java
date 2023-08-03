@@ -5,8 +5,6 @@ import com.wangyi.component.web.util.constant.ResultCode;
 import com.wangyi.component.web.util.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.Order;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -56,7 +54,7 @@ public class GlobalExceptionHandler {
                 map.put(objectError.getObjectName(), objectError.getDefaultMessage());
             }
         }
-        return new Result<>(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName(), map);
+        return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName(), map);
     }
 
     /**
@@ -78,7 +76,7 @@ public class GlobalExceptionHandler {
                 map.put(objectError.getObjectName(), objectError.getDefaultMessage());
             }
         }
-        return new Result<>(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName(), map);
+        return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName(), map);
     }
 
     /**
@@ -97,7 +95,7 @@ public class GlobalExceptionHandler {
             String field = e.getPropertyPath().toString().split("\\.")[1];
             map.put(field, e.getMessage());
         });
-        return new Result<>(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName(), map);
+        return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName(), map);
     }
 
     /**
@@ -106,7 +104,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public Result<Void> handleMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
         log.error("参数错误", ex);
-        return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ex.getMessage());
+        return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName());
     }
 
     /**
@@ -115,7 +113,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Result<Void> handleException(Exception ex) {
         log.error(ex.getMessage(), ex);
-        return Result.fail();
+        return Result.fail(ResultCode.FAIL.getCode(), ResultCode.FAIL.getName());
     }
 
 }

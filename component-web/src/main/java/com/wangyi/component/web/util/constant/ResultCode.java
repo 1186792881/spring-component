@@ -2,20 +2,20 @@ package com.wangyi.component.web.util.constant;
 
 public enum ResultCode {
 
-    SUCCESS(200, "SUCCESS"),
-    FAIL(500, "FAIL"),
-    INVALID_PARAMETER(505, "参数无效"),
+    SUCCESS("200", "SUCCESS"),
+    INVALID_PARAMETER("400", "参数无效"),
+    FAIL("500", "FAIL"),
     ;
 
-    private final Integer code;
+    private final String code;
     private final String name;
 
-    ResultCode(Integer code, String name) {
+    ResultCode(String code, String name) {
         this.code = code;
         this.name = name;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 

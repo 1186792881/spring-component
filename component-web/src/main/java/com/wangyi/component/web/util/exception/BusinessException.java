@@ -8,7 +8,7 @@ import com.wangyi.component.web.util.constant.ResultCode;
 public class BusinessException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    private int code;
+    private String code;
     private String message;
 
     public BusinessException(String message) {
@@ -17,13 +17,13 @@ public class BusinessException extends RuntimeException {
         this.message = message;
     }
 
-    public BusinessException(int code, String message) {
+    public BusinessException(String code, String message) {
         super(message);
         this.code = code;
         this.message = message;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
