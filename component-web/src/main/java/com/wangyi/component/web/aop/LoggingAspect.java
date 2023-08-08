@@ -35,11 +35,14 @@ public class LoggingAspect {
      * 匹配接口的切入点
      */
     @Pointcut(
-            "@annotation(org.springframework.web.bind.annotation.GetMapping)" +
-            "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
-            "|| @annotation(org.springframework.web.bind.annotation.PutMapping)" +
-            "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)" +
-            "|| @annotation(org.springframework.web.bind.annotation.RequestMapping)"
+            "(" +
+                "@annotation(org.springframework.web.bind.annotation.GetMapping)" +
+                "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
+                "|| @annotation(org.springframework.web.bind.annotation.PutMapping)" +
+                "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)" +
+                "|| @annotation(org.springframework.web.bind.annotation.RequestMapping)" +
+            ")" +
+            "&& !@annotation(com.wangyi.component.web.annotation.LogExclude)"
     )
     public void apiPointcut() {
         // 方法为空，因为这只是一个切入点，实现在通知中。

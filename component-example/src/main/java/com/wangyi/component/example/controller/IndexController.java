@@ -8,6 +8,7 @@ import com.wangyi.component.redisson.delay.DelayMessage;
 import com.wangyi.component.redisson.delay.DelayMessageUtil;
 import com.wangyi.component.redisson.lock.DistributedLockUtil;
 import com.wangyi.component.redisson.ratelimit.RateLimiter;
+import com.wangyi.component.web.annotation.LogExclude;
 import com.wangyi.component.web.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBucket;
@@ -112,6 +113,7 @@ public class IndexController {
     }
 
     @GetMapping("/getUser")
+    @LogExclude
     public Result<Object> getUser(Long id) {
         return Result.success(indexService.getUser(id));
     }
