@@ -1,6 +1,6 @@
-package com.wangyi.component.web.util.exception;
+package com.wangyi.component.base.exception;
 
-import com.wangyi.component.web.util.constant.ResultCode;
+import com.wangyi.component.base.constant.ResultCode;
 
 /**
  * 自定义异常

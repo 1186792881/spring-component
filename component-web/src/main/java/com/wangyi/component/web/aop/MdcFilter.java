@@ -1,6 +1,6 @@
 package com.wangyi.component.web.aop;
 
-import com.wangyi.component.web.util.constant.LogConstant;
+import com.wangyi.component.base.constant.LogConstant;
 import org.slf4j.MDC;
 import org.springframework.core.annotation.Order;
 import org.springframework.util.StringUtils;

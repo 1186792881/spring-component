@@ -24,6 +24,7 @@
         <module>component-web</module>
         <module>component-example</module>
         <module>component-redisson</module>
+        <module>component-base</module>
     </modules>
 
 </project>

@@ -1,7 +1,7 @@
-package com.wangyi.component.web.util;
+package com.wangyi.component.base.vo;
 
-import com.wangyi.component.web.util.constant.LogConstant;
-import com.wangyi.component.web.util.constant.ResultCode;
+import com.wangyi.component.base.constant.LogConstant;
+import com.wangyi.component.base.constant.ResultCode;
 import org.slf4j.MDC;
 
 public class Result<T> {

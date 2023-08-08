@@ -1,8 +1,8 @@
 package com.wangyi.component.web.aop;
 
-import com.wangyi.component.web.util.Result;
-import com.wangyi.component.web.util.constant.ResultCode;
-import com.wangyi.component.web.util.exception.BusinessException;
+import com.wangyi.component.base.constant.ResultCode;
+import com.wangyi.component.base.exception.BusinessException;
+import com.wangyi.component.base.vo.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;

@@ -1,4 +1,4 @@
-package com.wangyi.component.web.util.constant;
+package com.wangyi.component.base.constant;
 
 public interface LogConstant {
 

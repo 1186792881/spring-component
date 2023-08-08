@@ -1,6 +1,7 @@
 package com.wangyi.component.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wangyi.component.base.vo.Result;
 import com.wangyi.component.example.client.BingClient;
 import com.wangyi.component.example.repository.mysql.entity.BumUser;
 import com.wangyi.component.example.service.IndexService;
@@ -9,7 +10,6 @@ import com.wangyi.component.redisson.delay.DelayMessageUtil;
 import com.wangyi.component.redisson.lock.DistributedLockUtil;
 import com.wangyi.component.redisson.ratelimit.RateLimiter;
 import com.wangyi.component.web.annotation.LogExclude;
-import com.wangyi.component.web.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;

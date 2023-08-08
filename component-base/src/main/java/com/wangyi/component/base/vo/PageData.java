@@ -1,4 +1,4 @@
-package com.wangyi.component.web.util;
+package com.wangyi.component.base.vo;
 
 import java.util.List;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package com.wangyi.component.web.config;
 
-import com.wangyi.component.web.util.constant.LogConstant;
+import com.wangyi.component.base.constant.LogConstant;
 import org.slf4j.MDC;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
