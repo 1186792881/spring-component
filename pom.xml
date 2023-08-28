@@ -25,6 +25,7 @@
         <module>component-example</module>
         <module>component-redisson</module>
         <module>component-base</module>
+        <module>component-uid</module>
     </modules>
 
 </project>

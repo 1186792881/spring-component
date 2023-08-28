@@ -65,6 +65,11 @@
             <version>${forest-spring-boot-starter.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.wangyi.component</groupId>
+            <artifactId>component-uid</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 

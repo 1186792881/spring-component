@@ -96,7 +96,7 @@ public class ComponentRedissonAutoConfiguration {
         return template;
     }
 
-    @Bean
+    @Bean(destroyMethod = "shutdown")
     public RedissonClient redissonClient() {
         try {
             Config config = getRedissonConfig();

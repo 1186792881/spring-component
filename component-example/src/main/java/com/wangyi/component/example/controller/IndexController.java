@@ -9,6 +9,7 @@ import com.wangyi.component.redisson.delay.DelayMessage;
 import com.wangyi.component.redisson.delay.DelayMessageUtil;
 import com.wangyi.component.redisson.lock.DistributedLockUtil;
 import com.wangyi.component.redisson.ratelimit.RateLimiter;
+import com.wangyi.component.uid.core.impl.CachedUidGenerator;
 import com.wangyi.component.web.annotation.LogExclude;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBucket;
@@ -27,8 +28,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -153,6 +156,27 @@ public class IndexController {
     public Result<String> bing(String q) {
         String index = bingClient.search(q);
         return Result.success(index);
+    }
+
+    @Resource
+    private CachedUidGenerator cachedUidGenerator;
+
+    @GetMapping("/generateId")
+    public Result<List<Long>> generateId(Integer count) {
+        List<Long> idList = new ArrayList<>();
+        for (int i=0; i<count; i++) {
+            Long id = cachedUidGenerator.getUID();
+            if (idList.contains(id)) {
+                throw new RuntimeException("id重复");
+            }
+            idList.add(id);
+        }
+        return Result.success(idList);
+    }
+
+    @GetMapping("/parseId")
+    public Result<String> parseId(Long id) {
+        return  Result.success(cachedUidGenerator.parseUID(id));
     }
 
 
