@@ -1,7 +1,7 @@
 package com.wangyi.component.web.aop;
 
 import com.wangyi.component.base.constant.ResultCode;
-import com.wangyi.component.base.exception.BusinessException;
+import com.wangyi.component.base.exception.BizException;
 import com.wangyi.component.base.vo.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +24,13 @@ import java.util.Set;
 @ResponseBody
 public class GlobalExceptionHandler {
 
-    private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * 处理自定义异常
      */
-    @ExceptionHandler(BusinessException.class)
-    public Result<Void> handleBizException(BusinessException ex) {
+    @ExceptionHandler(BizException.class)
+    public Result<Void> handleBizException(BizException ex) {
         log.error(ex.getMessage(), ex);
         return Result.fail(ex.getCode(), ex.getMessage());
     }
