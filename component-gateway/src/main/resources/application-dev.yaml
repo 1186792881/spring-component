@@ -1,0 +1,28 @@
+# 日志
+logging:
+  file:
+    path: ./logs
+  level:
+    root: info
+  config: classpath:logging-spring.xml
+
+spring:
+  cloud:
+    gateway:
+      # 设置默认的 filter
+      default-filters:
+        - PreserveHostHeader # 透传客户端IP给后台服务
+      routes:
+        - id: example
+          uri: http://localhost:8080/
+          predicates:
+            - Path=/example/**
+          filters:
+            - StripPrefix=1
+
+
+gateway:
+  auth:
+    enable: true
+    ignorePath:
+    #  - /example/**

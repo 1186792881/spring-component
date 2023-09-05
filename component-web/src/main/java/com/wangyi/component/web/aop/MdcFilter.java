@@ -1,6 +1,6 @@
 package com.wangyi.component.web.aop;
 
-import com.wangyi.component.base.constant.LogConstant;
+import com.wangyi.component.base.constant.BaseConstant;
 import org.slf4j.MDC;
 import org.springframework.core.annotation.Order;
 import org.springframework.util.StringUtils;
@@ -26,11 +26,11 @@ public class MdcFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         // 设置traceId
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        String traceId = request.getHeader(LogConstant.TRACE_ID);
+        String traceId = request.getHeader(BaseConstant.TRACE_ID);
         if (!StringUtils.hasLength(traceId)) {
             traceId = UUID.randomUUID().toString().replaceAll("-", "");
         }
-        MDC.put(LogConstant.TRACE_ID, traceId);
+        MDC.put(BaseConstant.TRACE_ID, traceId);
         filterChain.doFilter(servletRequest, servletResponse);
         MDC.clear();
     }

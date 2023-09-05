@@ -1,6 +1,6 @@
 package com.wangyi.component.base.vo;
 
-import com.wangyi.component.base.constant.LogConstant;
+import com.wangyi.component.base.constant.BaseConstant;
 import com.wangyi.component.base.constant.ResultCode;
 import org.slf4j.MDC;
 
@@ -18,7 +18,7 @@ public class Result<T> {
         this.code = code;
         this.msg = msg;
         this.data = data;
-        this.traceId = MDC.get(LogConstant.TRACE_ID);
+        this.traceId = MDC.get(BaseConstant.TRACE_ID);
     }
 
     public static <T> Result<T> success(T t) {

@@ -1,6 +1,6 @@
 package com.wangyi.component.web.config;
 
-import com.wangyi.component.base.constant.LogConstant;
+import com.wangyi.component.base.constant.BaseConstant;
 import org.slf4j.MDC;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,10 +48,10 @@ public class ThreadPoolConfig {
                         MDC.setContextMap(map);
                     }
 
-                    String traceId = MDC.get(LogConstant.TRACE_ID);
+                    String traceId = MDC.get(BaseConstant.TRACE_ID);
                     if (!StringUtils.hasLength(traceId)) {
                         traceId = UUID.randomUUID().toString().replaceAll("-", "");
-                        MDC.put(LogConstant.TRACE_ID, traceId);
+                        MDC.put(BaseConstant.TRACE_ID, traceId);
                     }
                     runnable.run();
                 } finally {
