@@ -100,10 +100,6 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
         return body;
     }
 
-    private boolean hasEncryptAnnotation(Method method) {
-        return null != AnnotationUtils.findAnnotation(method, Decrypt.class);
-    }
-
     private EncryptHandler getEncryptHandler(EncryptType encryptType) {
         EncryptHandler encryptHandler = encryptHandlerList.stream()
                 .filter(handler -> handler.support(encryptType))

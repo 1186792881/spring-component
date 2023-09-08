@@ -87,10 +87,6 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Result> {
         return encryptHandler;
     }
 
-    private boolean hasEncryptAnnotation(Method method) {
-        return null != AnnotationUtils.findAnnotation(method, Encrypt.class);
-    }
-
     private Encrypt getEncrypt(MethodParameter returnType) {
         Method method = returnType.getMethod();
         Class<?> clazz = returnType.getDeclaringClass();
