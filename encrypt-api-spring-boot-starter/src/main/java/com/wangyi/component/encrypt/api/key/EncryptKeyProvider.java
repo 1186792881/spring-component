@@ -9,7 +9,7 @@ public interface EncryptKeyProvider {
 
     /**
      * 获取加密密钥
-     * @return
+     * @return 返回null时不进行加解密处理
      */
     EncryptKey getKey(HttpServletRequest request);
 

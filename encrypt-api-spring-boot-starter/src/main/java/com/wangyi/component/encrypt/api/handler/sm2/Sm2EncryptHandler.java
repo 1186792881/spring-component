@@ -5,6 +5,7 @@ import cn.hutool.crypto.asymmetric.KeyType;
 import com.wangyi.component.encrypt.api.enums.EncryptType;
 import com.wangyi.component.encrypt.api.handler.EncryptBody;
 import com.wangyi.component.encrypt.api.handler.EncryptHandler;
+import com.wangyi.component.encrypt.api.key.EncryptKey;
 import com.wangyi.component.encrypt.api.key.EncryptKeyProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,21 +27,31 @@ public class Sm2EncryptHandler implements EncryptHandler {
 
     @Override
     public String encrypt(EncryptBody body) {
-        Sm2Key rsaKey = getSm2Key();
+        Sm2Key sm2Key = getSm2Key();
+        if (null == sm2Key) {
+            return body.getBody();
+        }
         KeyType keyType = body.getEncryptKeyType().toKeyType();
-        return SmUtil.sm2(rsaKey.getPrivateKey(), rsaKey.getPublicKey()).encryptBase64(body.getBody(), keyType);
+        return SmUtil.sm2(sm2Key.getPrivateKey(), sm2Key.getPublicKey()).encryptBase64(body.getBody(), keyType);
     }
 
     @Override
     public String decrypt(EncryptBody body) {
-        Sm2Key rsaKey = getSm2Key();
+        Sm2Key sm2Key = getSm2Key();
+        if (null == sm2Key) {
+            return body.getBody();
+        }
         KeyType keyType = body.getEncryptKeyType().toKeyType();
-        return SmUtil.sm2(rsaKey.getPrivateKey(), rsaKey.getPublicKey()).decryptStr(body.getBody(), keyType);
+        return SmUtil.sm2(sm2Key.getPrivateKey(), sm2Key.getPublicKey()).decryptStr(body.getBody(), keyType);
     }
 
     private Sm2Key getSm2Key() {
         HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
-        return encryptKeyProvider.getKey(request).getSm2Key();
+        EncryptKey encryptKey = encryptKeyProvider.getKey(request);
+        if (null == encryptKey) {
+            return null;
+        }
+        return encryptKey.getSm2Key();
     }
 
 }
