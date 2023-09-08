@@ -2,9 +2,13 @@ package com.wangyi.component.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangyi.component.base.vo.Result;
+import com.wangyi.component.encrypt.api.annotation.Decrypt;
+import com.wangyi.component.encrypt.api.annotation.Encrypt;
+import com.wangyi.component.encrypt.api.enums.EncryptType;
 import com.wangyi.component.example.client.BingClient;
 import com.wangyi.component.example.repository.mysql.entity.BumUser;
 import com.wangyi.component.example.service.IndexService;
+import com.wangyi.component.example.vo.ReqPublishCreateUserVO;
 import com.wangyi.component.redisson.delay.DelayMessage;
 import com.wangyi.component.redisson.delay.DelayMessageUtil;
 import com.wangyi.component.redisson.lock.DistributedLockUtil;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +43,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @Slf4j
 @Validated
+@Encrypt(encryptType = EncryptType.AES)
 public class IndexController {
 
     @Resource
@@ -135,10 +141,11 @@ public class IndexController {
         return Result.success(user);
     }
 
-    @GetMapping("/publishCreateUser")
-    public Result<Void> publishCreateUser(Integer count, Integer time) {
-        for (int i = 1; i <= count; i++) {
-            DelayMessage msg = new DelayMessage("create_user", String.valueOf(i), time);
+    @Decrypt(encryptType = EncryptType.AES)
+    @PostMapping("/publishCreateUser")
+    public Result<Void> publishCreateUser(@RequestBody ReqPublishCreateUserVO req) {
+        for (int i = 1; i <= req.getCount(); i++) {
+            DelayMessage msg = new DelayMessage("create_user", String.valueOf(i), req.getTime());
             delayMessageUtil.publish(msg);
         }
         return Result.success();

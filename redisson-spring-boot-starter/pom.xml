@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wangyi.component</groupId>
-    <artifactId>component-redisson</artifactId>
+    <artifactId>redisson-spring-boot-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>component-redisson</name>
-    <description>component-redisson</description>
+    <name>redisson-spring-boot-starter</name>
+    <description>redisson-spring-boot-starter</description>
 
     <parent>
         <groupId>com.wangyi.component</groupId>

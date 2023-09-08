@@ -1,7 +1,7 @@
 # 日志
 logging:
   file:
-    path: ./logs
+    path: ./app-logs
   level:
     root: info
   config: classpath:logging-spring.xml
@@ -62,3 +62,9 @@ forest:
   log-request: true            # 打开/关闭Forest请求日志（默认为 true）
   log-response-status: true    # 打开/关闭Forest响应状态日志（默认为 true）
   log-response-content: true   # 打开/关闭Forest响应内容日志（默认为 false）
+
+# api加密配置
+encrypt:
+  api:
+    aes:
+      key: 30n6om0e19dyomy2

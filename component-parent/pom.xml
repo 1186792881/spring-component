@@ -33,6 +33,7 @@
         <redisson-spring-boot-starter.version>3.21.1</redisson-spring-boot-starter.version>
         <forest-spring-boot-starter.version>1.5.32</forest-spring-boot-starter.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <bcprov-jdk15to18.version>1.69</bcprov-jdk15to18.version>
 
     </properties>
 

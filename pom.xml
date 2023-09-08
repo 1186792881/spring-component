@@ -21,12 +21,13 @@
 
     <modules>
         <module>component-parent</module>
-        <module>component-web</module>
         <module>component-example</module>
-        <module>component-redisson</module>
-        <module>component-base</module>
-        <module>component-uid</module>
         <module>component-gateway</module>
+        <module>component-base</module>
+        <module>web-spring-boot-starter</module>
+        <module>uid-spring-boot-starter</module>
+        <module>redisson-spring-boot-starter</module>
+        <module>encrypt-api-spring-boot-starter</module>
     </modules>
 
 </project>
