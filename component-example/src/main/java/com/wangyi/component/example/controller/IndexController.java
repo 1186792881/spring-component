@@ -181,6 +181,7 @@ public class IndexController {
         return Result.success(idList);
     }
 
+    @Encrypt(encryptType = EncryptType.DES)
     @GetMapping("/parseId")
     public Result<String> parseId(Long id) {
         return  Result.success(cachedUidGenerator.parseUID(id));
