@@ -1,11 +1,13 @@
 package com.wangyi.component.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wangyi.component.base.exception.BizAssert;
 import com.wangyi.component.base.vo.Result;
-import com.wangyi.component.encrypt.api.annotation.Decrypt;
-import com.wangyi.component.encrypt.api.annotation.Encrypt;
+import com.wangyi.component.encrypt.api.annotation.DecryptRequestBody;
+import com.wangyi.component.encrypt.api.annotation.EncryptResponseBody;
 import com.wangyi.component.encrypt.api.enums.EncryptType;
 import com.wangyi.component.example.client.BingClient;
+import com.wangyi.component.example.constant.ExampleResultCode;
 import com.wangyi.component.example.repository.mysql.entity.BumUser;
 import com.wangyi.component.example.service.IndexService;
 import com.wangyi.component.example.vo.ReqPublishCreateUserVO;
@@ -43,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @Slf4j
 @Validated
-@Encrypt(encryptType = EncryptType.AES)
+@EncryptResponseBody(encryptType = EncryptType.AES)
 public class IndexController {
 
     @Resource
@@ -118,6 +120,7 @@ public class IndexController {
 
     @GetMapping("/get")
     public Result<String> get(@NotBlank(message = "name不能为空") String name, @NotBlank(message = "id不能为空") String id) {
+        BizAssert.isFalse("aa".equals(name), ExampleResultCode.PARAM_INVALID, "name: " + name);
         return Result.success("hello" + name);
     }
 
@@ -141,7 +144,7 @@ public class IndexController {
         return Result.success(user);
     }
 
-    @Decrypt(encryptType = EncryptType.AES)
+    @DecryptRequestBody(encryptType = EncryptType.AES)
     @PostMapping("/publishCreateUser")
     public Result<Void> publishCreateUser(@RequestBody ReqPublishCreateUserVO req) {
         for (int i = 1; i <= req.getCount(); i++) {
@@ -181,7 +184,7 @@ public class IndexController {
         return Result.success(idList);
     }
 
-    @Encrypt(encryptType = EncryptType.DES)
+    @EncryptResponseBody(encryptType = EncryptType.DES)
     @GetMapping("/parseId")
     public Result<String> parseId(Long id) {
         return  Result.success(cachedUidGenerator.parseUID(id));

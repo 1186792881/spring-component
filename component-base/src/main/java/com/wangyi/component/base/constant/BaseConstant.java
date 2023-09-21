@@ -17,4 +17,9 @@ public interface BaseConstant {
      */
     String AUTHORIZATION = "Authorization";
 
+    /**
+     * Header 中的 language
+     */
+    String LANGUAGE = "Language";
+
 }

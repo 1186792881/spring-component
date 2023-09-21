@@ -15,6 +15,11 @@ import org.springframework.stereotype.Component;
 public class EncryptProperties {
 
     /**
+     * 是否启用接口加密
+     */
+    private Boolean enabled = true;
+
+    /**
      * AES 密钥配置
      */
     private AesKey aes;

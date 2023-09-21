@@ -1,6 +1,6 @@
 package com.wangyi.component.web.aop;
 
-import com.wangyi.component.base.constant.ResultCode;
+import com.wangyi.component.base.exception.BaseResultCode;
 import com.wangyi.component.base.exception.BizException;
 import com.wangyi.component.base.vo.Result;
 import org.slf4j.Logger;
@@ -30,9 +30,9 @@ public class GlobalExceptionHandler {
      * 处理自定义异常
      */
     @ExceptionHandler(BizException.class)
-    public Result<Void> handleBizException(BizException ex) {
-        log.error(ex.getMessage(), ex);
-        return Result.fail(ex.getCode(), ex.getMessage());
+    public Result<Object> handleBizException(BizException ex) {
+        log.error(ex.getMsg(), ex);
+        return Result.result(ex.getCode(), ex.getMessage(), ex.getData(), ex.getMsgArgs());
     }
 
     /**
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
     public Result<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         log.error("参数错误", ex);
         if (!ex.getBindingResult().hasErrors()) {
-            return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName());
+            return Result.fail(BaseResultCode.INVALID_PARAMETER.getCode(), BaseResultCode.INVALID_PARAMETER.getMsg());
         }
         Map<String, String> map = new HashMap<>();
         for (ObjectError objectError : ex.getAllErrors()) {
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
                 map.put(objectError.getObjectName(), objectError.getDefaultMessage());
             }
         }
-        return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName(), map);
+        return Result.result(BaseResultCode.INVALID_PARAMETER.getCode(), BaseResultCode.INVALID_PARAMETER.getMsg(), map);
     }
 
     /**
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     public Result<Object> handleBindException(BindException ex) {
         log.error("参数错误", ex);
         if (!ex.getBindingResult().hasErrors()) {
-            return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName());
+            return Result.fail(BaseResultCode.INVALID_PARAMETER.getCode(), BaseResultCode.INVALID_PARAMETER.getMsg());
         }
         Map<String, String> map = new HashMap<>();
         for (ObjectError objectError : ex.getAllErrors()) {
@@ -76,7 +76,7 @@ public class GlobalExceptionHandler {
                 map.put(objectError.getObjectName(), objectError.getDefaultMessage());
             }
         }
-        return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName(), map);
+        return Result.result(BaseResultCode.INVALID_PARAMETER.getCode(), BaseResultCode.INVALID_PARAMETER.getMsg(), map);
     }
 
     /**
@@ -87,7 +87,7 @@ public class GlobalExceptionHandler {
         log.error("参数错误", ex);
         Set<ConstraintViolation<?>> violationSet = ex.getConstraintViolations();
         if (null == violationSet || violationSet.isEmpty()) {
-            return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName());
+            return Result.fail(BaseResultCode.INVALID_PARAMETER.getCode(), BaseResultCode.INVALID_PARAMETER.getMsg());
         }
 
         Map<String, String> map = new HashMap<>();
@@ -95,7 +95,7 @@ public class GlobalExceptionHandler {
             String field = e.getPropertyPath().toString().split("\\.")[1];
             map.put(field, e.getMessage());
         });
-        return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName(), map);
+        return Result.result(BaseResultCode.INVALID_PARAMETER.getCode(), BaseResultCode.INVALID_PARAMETER.getMsg(), map);
     }
 
     /**
@@ -104,7 +104,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public Result<Void> handleMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
         log.error("参数错误", ex);
-        return Result.fail(ResultCode.INVALID_PARAMETER.getCode(), ResultCode.INVALID_PARAMETER.getName());
+        return Result.fail(BaseResultCode.INVALID_PARAMETER.getCode(), BaseResultCode.INVALID_PARAMETER.getMsg());
     }
 
     /**
@@ -113,7 +113,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Result<Void> handleException(Exception ex) {
         log.error(ex.getMessage(), ex);
-        return Result.fail(ResultCode.FAIL.getCode(), ResultCode.FAIL.getName());
+        return Result.fail(BaseResultCode.FAIL.getCode(), BaseResultCode.FAIL.getMsg());
     }
 
 }

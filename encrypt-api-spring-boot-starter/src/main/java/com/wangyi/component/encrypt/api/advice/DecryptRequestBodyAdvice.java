@@ -2,7 +2,7 @@ package com.wangyi.component.encrypt.api.advice;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import com.wangyi.component.encrypt.api.annotation.Decrypt;
+import com.wangyi.component.encrypt.api.annotation.DecryptRequestBody;
 import com.wangyi.component.encrypt.api.enums.EncryptType;
 import com.wangyi.component.encrypt.api.handler.EncryptBody;
 import com.wangyi.component.encrypt.api.handler.EncryptHandler;
@@ -46,8 +46,8 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        Decrypt decrypt = getDecrypt(methodParameter);
-        if (Objects.isNull(decrypt)) {
+        DecryptRequestBody decryptRequestBody = getDecrypt(methodParameter);
+        if (Objects.isNull(decryptRequestBody)) {
             return false;
         }
         return true;
@@ -55,8 +55,8 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
 
     @Override
     public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
-        Decrypt decrypt = getDecrypt(parameter);
-        if (null == decrypt) {
+        DecryptRequestBody decryptRequestBody = getDecrypt(parameter);
+        if (null == decryptRequestBody) {
             return inputMessage;
         }
 
@@ -66,11 +66,11 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
 
         // 解密
         if (!StrUtil.isEmpty(body)) {
-            EncryptHandler encryptHandler = getEncryptHandler(decrypt.encryptType());
+            EncryptHandler encryptHandler = getEncryptHandler(decryptRequestBody.encryptType());
             EncryptBody encryptBody = new EncryptBody();
             encryptBody.setBody(body);
-            encryptBody.setEncryptType(decrypt.encryptType());
-            encryptBody.setEncryptKeyType(decrypt.encryptKeyType());
+            encryptBody.setEncryptType(decryptRequestBody.encryptType());
+            encryptBody.setEncryptKeyType(decryptRequestBody.encryptKeyType());
             body = encryptHandler.decrypt(encryptBody);
         }
 
@@ -108,17 +108,17 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
         return encryptHandler;
     }
 
-    private Decrypt getDecrypt(MethodParameter parameter) {
+    private DecryptRequestBody getDecrypt(MethodParameter parameter) {
         Method method = parameter.getMethod();
         Class<?> clazz = parameter.getDeclaringClass();
-        Decrypt decrypt = null;
+        DecryptRequestBody decryptRequestBody = null;
         if (null != method) {
-            decrypt = AnnotationUtils.findAnnotation(method, Decrypt.class);
+            decryptRequestBody = AnnotationUtils.findAnnotation(method, DecryptRequestBody.class);
         }
-        if (null == decrypt) {
-            decrypt = AnnotationUtils.findAnnotation(clazz, Decrypt.class);
+        if (null == decryptRequestBody) {
+            decryptRequestBody = AnnotationUtils.findAnnotation(clazz, DecryptRequestBody.class);
         }
-        return decrypt;
+        return decryptRequestBody;
     }
 
 }

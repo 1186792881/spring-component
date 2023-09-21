@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface Decrypt {
+public @interface DecryptRequestBody {
 
     EncryptType encryptType();
 

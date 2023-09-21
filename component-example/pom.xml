@@ -28,8 +28,7 @@
 
         <dependency>
             <groupId>com.wangyi.component</groupId>
-            <artifactId>redisson-spring-boot-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <artifactId>redis-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -41,7 +40,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus-boot-starter.version}</version>
         </dependency>
 
         <dependency>
@@ -52,7 +50,6 @@
         <dependency>
             <groupId>com.dtflys.forest</groupId>
             <artifactId>forest-spring-boot-starter</artifactId>
-            <version>${forest-spring-boot-starter.version}</version>
         </dependency>
 
         <dependency>
@@ -61,10 +58,15 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <!--<dependency>
+            <groupId>io.github.whitedg</groupId>
+            <artifactId>mybatis-crypto-spring-boot-starter</artifactId>
+            <version>1.2.4</version>
+        </dependency>-->
+
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>${hutool-all.version}</version>
         </dependency>
 
     </dependencies>

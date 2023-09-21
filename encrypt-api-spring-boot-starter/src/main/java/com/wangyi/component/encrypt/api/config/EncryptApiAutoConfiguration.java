@@ -3,11 +3,13 @@ package com.wangyi.component.encrypt.api.config;
 import com.wangyi.component.encrypt.api.key.DefaultEncryptKeyProvider;
 import com.wangyi.component.encrypt.api.key.EncryptKeyProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConditionalOnProperty(value = "encrypt.api.enabled", havingValue = "true", matchIfMissing = true)
 @ComponentScan("com.wangyi.component.encrypt.api")
 public class EncryptApiAutoConfiguration {
 

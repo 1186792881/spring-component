@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wangyi.component</groupId>
-    <artifactId>redisson-spring-boot-starter</artifactId>
+    <artifactId>redis-spring-boot-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>redisson-spring-boot-starter</name>
-    <description>redisson-spring-boot-starter</description>
+    <name>redis-spring-boot-starter</name>
+    <description>redis-spring-boot-starter</description>
 
     <parent>
         <groupId>com.wangyi.component</groupId>
@@ -32,7 +32,6 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
-            <version>${redisson-spring-boot-starter.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.redisson</groupId>
@@ -44,7 +43,6 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-data-27</artifactId>
-            <version>${redisson-spring-boot-starter.version}</version>
         </dependency>
 
         <dependency>

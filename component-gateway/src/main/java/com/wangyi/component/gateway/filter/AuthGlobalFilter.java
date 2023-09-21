@@ -1,6 +1,6 @@
 package com.wangyi.component.gateway.filter;
 
-import com.wangyi.component.base.constant.ResultCode;
+import com.wangyi.component.base.exception.BaseResultCode;
 import com.wangyi.component.base.vo.Result;
 import com.wangyi.component.gateway.config.AuthConfig;
 import com.wangyi.component.gateway.util.RequestUtil;
@@ -50,7 +50,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         // 校验token是否有权限访问指定路径
         String token = requestUtil.getToken(exchange.getRequest());
         Result<Void> result = validateToken(token, path);
-        if (!ResultCode.SUCCESS.getCode().equals(result.getCode())) {
+        if (!BaseResultCode.SUCCESS.getCode().equals(result.getCode())) {
             return responseUtil.webFluxResponseWriter(exchange.getResponse(), result);
         }
 

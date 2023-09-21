@@ -51,5 +51,12 @@ public class IndexService {
         log.info("执行async方法");
     }
 
+    public BumUser getUserByPhone(String phone) {
+        return bumUserDao.lambdaQuery()
+                .select(BumUser::getPhone, BumUser::getEmail)
+                .ge(BumUser::getPhone, phone)
+                .one();
+    }
+
 
 }

@@ -25,15 +25,21 @@
         <maven.compiler.source>11</maven.compiler.source>
         <java.version>11</java.version>
 
-        <!-- 依赖版本统一管理 -->
+        <!-- 外部依赖版本统一管理 -->
         <hutool-all.version>5.8.15</hutool-all.version>
         <mybatis-plus-boot-starter.version>3.5.2</mybatis-plus-boot-starter.version>
-        <tlog-all-spring-boot-starter.version>1.5.0</tlog-all-spring-boot-starter.version>
-        <spring-boot-admin.version>2.7.4</spring-boot-admin.version>
         <redisson-spring-boot-starter.version>3.21.1</redisson-spring-boot-starter.version>
         <forest-spring-boot-starter.version>1.5.32</forest-spring-boot-starter.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <bcprov-jdk15to18.version>1.69</bcprov-jdk15to18.version>
+
+        <!-- 内部依赖版本统一管理 -->
+        <component-base.version>0.0.1-SNAPSHOT</component-base.version>
+        <encrypt-api-spring-boot-starter.version>0.0.1-SNAPSHOT</encrypt-api-spring-boot-starter.version>
+        <encrypt-data-spring-boot-starter.version>0.0.1-SNAPSHOT</encrypt-data-spring-boot-starter.version>
+        <redis-spring-boot-starter.version>0.0.1-SNAPSHOT</redis-spring-boot-starter.version>
+        <uid-spring-boot-starter.version>0.0.1-SNAPSHOT</uid-spring-boot-starter.version>
+        <web-spring-boot-starter.version>0.0.1-SNAPSHOT</web-spring-boot-starter.version>
 
     </properties>
 
@@ -45,6 +51,68 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-all.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-spring-boot-starter</artifactId>
+                <version>${forest-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-data-27</artifactId>
+                <version>${redisson-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15to18</artifactId>
+                <version>${bcprov-jdk15to18.version}</version>
+            </dependency>
+
+            <!-- 内部依赖 -->
+            <dependency>
+                <groupId>com.wangyi.component</groupId>
+                <artifactId>component-base</artifactId>
+                <version>${component-base.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wangyi.component</groupId>
+                <artifactId>encrypt-api-spring-boot-starter</artifactId>
+                <version>${encrypt-api-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wangyi.component</groupId>
+                <artifactId>encrypt-data-spring-boot-starter</artifactId>
+                <version>${encrypt-data-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wangyi.component</groupId>
+                <artifactId>redis-spring-boot-starter</artifactId>
+                <version>${redis-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wangyi.component</groupId>
+                <artifactId>uid-spring-boot-starter</artifactId>
+                <version>${uid-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wangyi.component</groupId>
+                <artifactId>web-spring-boot-starter</artifactId>
+                <version>${web-spring-boot-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -3,7 +3,7 @@ package com.wangyi.component.encrypt.api.advice;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangyi.component.base.vo.Result;
-import com.wangyi.component.encrypt.api.annotation.Encrypt;
+import com.wangyi.component.encrypt.api.annotation.EncryptResponseBody;
 import com.wangyi.component.encrypt.api.enums.EncryptType;
 import com.wangyi.component.encrypt.api.handler.EncryptBody;
 import com.wangyi.component.encrypt.api.handler.EncryptHandler;
@@ -44,8 +44,8 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Result> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        Encrypt encrypt = getEncrypt(returnType);
-        if (Objects.isNull(encrypt)) {
+        EncryptResponseBody encryptResponseBody = getEncrypt(returnType);
+        if (Objects.isNull(encryptResponseBody)) {
             return false;
         }
         return true;
@@ -54,8 +54,8 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Result> {
     @SneakyThrows
     @Override
     public Result beforeBodyWrite(Result body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        Encrypt encrypt = getEncrypt(returnType);
-        if (null == encrypt) {
+        EncryptResponseBody encryptResponseBody = getEncrypt(returnType);
+        if (null == encryptResponseBody) {
             return body;
         }
 
@@ -68,13 +68,13 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Result> {
             return body;
         }
 
-        EncryptHandler encryptHandler = getEncryptHandler(encrypt.encryptType());
+        EncryptHandler encryptHandler = getEncryptHandler(encryptResponseBody.encryptType());
         EncryptBody encryptBody = new EncryptBody();
         encryptBody.setBody(plainData);
-        encryptBody.setEncryptType(encrypt.encryptType());
-        encryptBody.setEncryptKeyType(encrypt.encryptKeyType());
+        encryptBody.setEncryptType(encryptResponseBody.encryptType());
+        encryptBody.setEncryptKeyType(encryptResponseBody.encryptKeyType());
         String encryptData = encryptHandler.encrypt(encryptBody);
-        body.setData(encryptData);
+        body = Result.result(body.getCode(), body.getMsg(), encryptData, body.getMsgArgs());
         log.info("加密响应: {}", objectMapper.writeValueAsString(body));
         return body;
     }
@@ -87,17 +87,17 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Result> {
         return encryptHandler;
     }
 
-    private Encrypt getEncrypt(MethodParameter returnType) {
+    private EncryptResponseBody getEncrypt(MethodParameter returnType) {
         Method method = returnType.getMethod();
         Class<?> clazz = returnType.getDeclaringClass();
-        Encrypt encrypt = null;
+        EncryptResponseBody encryptResponseBody = null;
         if (null != method) {
-            encrypt = AnnotationUtils.findAnnotation(method, Encrypt.class);
+            encryptResponseBody = AnnotationUtils.findAnnotation(method, EncryptResponseBody.class);
         }
-        if (null == encrypt) {
-            encrypt = AnnotationUtils.findAnnotation(clazz, Encrypt.class);
+        if (null == encryptResponseBody) {
+            encryptResponseBody = AnnotationUtils.findAnnotation(clazz, EncryptResponseBody.class);
         }
-        return encrypt;
+        return encryptResponseBody;
     }
 
 }
