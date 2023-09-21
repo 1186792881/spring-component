@@ -71,3 +71,7 @@ encrypt:
   api:
     aes:
       key: 30n6om0e19dyomy2
+
+i18n:
+  enableScan: true
+  scanPackage: com.wangyi.component.example

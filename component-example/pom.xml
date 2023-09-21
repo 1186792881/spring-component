@@ -28,6 +28,12 @@
 
         <dependency>
             <groupId>com.wangyi.component</groupId>
+            <artifactId>i18n-spring-boot-starter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wangyi.component</groupId>
             <artifactId>redis-spring-boot-starter</artifactId>
         </dependency>
 

@@ -1,10 +1,12 @@
-package com.wangyi.component.web.aop;
+package com.wangyi.component.i18n.core;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.wangyi.component.base.function.MessageSource;
 import com.wangyi.component.base.vo.Result;
-import com.wangyi.component.web.util.RequestUtil;
+import com.wangyi.component.i18n.constant.I18nConstant;
+import com.wangyi.component.i18n.constant.I18nTypeEnum;
+import com.wangyi.component.i18n.constant.LanguageEnum;
+import com.wangyi.component.i18n.util.RequestUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -46,17 +48,17 @@ public class I18nResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         String msg = result.getMsg();
 
         // 如果是微服务间的调用, 则不需要国际化, 由最终的前端调用响应时再做国际化
-        // TODO 通过 feign 拦截器在 header 中设置标记, 判断是否为服务间调用
-        String feignFlag = RequestUtil.getHeader("feign-request");
-        if (StrUtil.isNotBlank(feignFlag)) {
+        // 通过 feign 拦截器在 header 中设置标记, 判断是否为服务间调用
+        String feignFlag = RequestUtil.getHeader(I18nConstant.FEIGN_I18N_HEADER);
+        if (StrUtil.equals(feignFlag, I18nConstant.FEIGN_I18N_VALUE)) {
             return result;
         }
 
         // 如果不是微服务间的调用, 则根据 code 和 language 查询国际化信息
-        ObjectProvider<MessageSource> messageSourceProvider = SpringUtil.getApplicationContext().getBeanProvider(MessageSource.class);
-        MessageSource messageSource = messageSourceProvider.getIfAvailable();
-        if (null != messageSource) {
-            String i18nMsg = messageSource.getMessage(code, language);
+        ObjectProvider<I18nMessageSource> messageSourceProvider = SpringUtil.getApplicationContext().getBeanProvider(I18nMessageSource.class);
+        I18nMessageSource i18nMessageSource = messageSourceProvider.getIfAvailable();
+        if (null != i18nMessageSource) {
+            String i18nMsg = i18nMessageSource.getMessage(I18nTypeEnum.RESULT_CODE.getValue(), code, language);
             if (StrUtil.isNotBlank(i18nMsg)) {
                 msg = i18nMsg;
             }
