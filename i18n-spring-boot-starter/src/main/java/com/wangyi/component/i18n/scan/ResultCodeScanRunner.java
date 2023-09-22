@@ -1,5 +1,6 @@
 package com.wangyi.component.i18n.scan;
 
+import cn.hutool.core.lang.func.LambdaUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wangyi.component.base.exception.BizAssert;
@@ -42,8 +43,8 @@ public class ResultCodeScanRunner implements CommandLineRunner {
         Set<Class<?>> set = ClassUtil.scanPackageBySuper(i18nProperties.getScanPackage(), ResultCode.class);
         for (Class<?> clazz : set) {
             if (ClassUtil.isEnum(clazz)) {
-                Method codeMethod = ClassUtil.getDeclaredMethod(clazz, "getCode");
-                Method msgMethod = ClassUtil.getDeclaredMethod(clazz, "getMsg");
+                Method codeMethod = ClassUtil.getDeclaredMethod(clazz, LambdaUtil.getMethodName(ResultCode::getCode));
+                Method msgMethod = ClassUtil.getDeclaredMethod(clazz, LambdaUtil.getMethodName(ResultCode::getMsg));
                 if (codeMethod == null || msgMethod == null) {
                     continue;
                 }
