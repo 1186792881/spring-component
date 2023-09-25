@@ -1,8 +1,8 @@
 package com.wangyi.component.i18n.config;
 
 import cn.hutool.extra.spring.EnableSpringUtil;
-import com.wangyi.component.i18n.core.I18nMessageSource;
-import com.wangyi.component.i18n.core.RedisI18nMessageSource;
+import com.wangyi.component.i18n.source.I18nMessageSource;
+import com.wangyi.component.i18n.source.RedisI18nMessageSource;
 import com.wangyi.component.i18n.scan.ResultCodeScanRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

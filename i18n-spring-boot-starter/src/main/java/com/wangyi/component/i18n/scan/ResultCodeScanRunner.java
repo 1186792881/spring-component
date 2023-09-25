@@ -7,7 +7,7 @@ import com.wangyi.component.base.exception.BizAssert;
 import com.wangyi.component.base.exception.ResultCode;
 import com.wangyi.component.i18n.config.I18nProperties;
 import com.wangyi.component.i18n.constant.I18nTypeEnum;
-import com.wangyi.component.i18n.core.I18nMessageSource;
+import com.wangyi.component.i18n.source.I18nMessageSource;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

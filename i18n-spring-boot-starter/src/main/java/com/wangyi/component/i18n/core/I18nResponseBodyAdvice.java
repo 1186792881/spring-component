@@ -5,7 +5,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.wangyi.component.base.vo.Result;
 import com.wangyi.component.i18n.constant.I18nConstant;
 import com.wangyi.component.i18n.constant.I18nTypeEnum;
-import com.wangyi.component.i18n.constant.LanguageEnum;
+import com.wangyi.component.i18n.source.I18nMessageSource;
 import com.wangyi.component.i18n.util.RequestUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
