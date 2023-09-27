@@ -149,4 +149,16 @@ public enum LanguageEnum {
         this.value = value;
         this.name = name;
     }
+
+    public static boolean contains(String value) {
+        if (null == value || value.isEmpty()) {
+            return false;
+        }
+        for (LanguageEnum languageEnum : LanguageEnum.values()) {
+            if (languageEnum.getValue().equals(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

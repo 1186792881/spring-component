@@ -31,6 +31,7 @@
         <redisson-spring-boot-starter.version>3.21.1</redisson-spring-boot-starter.version>
         <forest-spring-boot-starter.version>1.5.32</forest-spring-boot-starter.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <bcprov-jdk15to18.version>1.69</bcprov-jdk15to18.version>
 
         <!-- 内部依赖版本统一管理 -->
@@ -49,6 +50,13 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

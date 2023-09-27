@@ -54,7 +54,7 @@
 
     <!-- 开发环境记录到控制台和文件 -->
     <springProfile name="dev">
-        <root level="${logLevel:DEBUG}">
+        <root level="${logLevel}">
             <appender-ref ref="console"/>
             <appender-ref ref="async"/>
         </root>
@@ -62,7 +62,7 @@
 
     <!-- 测试环境记录到控制台和文件 -->
     <springProfile name="test">
-        <root level="${logLevel:INFO}">
+        <root level="${logLevel}">
             <appender-ref ref="console"/>
             <appender-ref ref="async"/>
         </root>
@@ -70,7 +70,7 @@
 
     <!-- 生产环境记录日志到文件 -->
     <springProfile name="prod">
-        <root level="${logLevel:INFO}">
+        <root level="${logLevel}">
             <appender-ref ref="async"/>
         </root>
     </springProfile>

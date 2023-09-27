@@ -1,10 +1,14 @@
 package com.wangyi.component.example.constant;
 
 import com.wangyi.component.base.exception.ResultCode;
+import com.wangyi.component.i18n.annotation.I18nType;
+import com.wangyi.component.i18n.constant.I18nTypeEnum;
 
+@I18nType(I18nTypeEnum.RESULT_CODE)
 public enum ExampleResultCode implements ResultCode {
 
-    PARAM_INVALID("00001", "param {} invalid");
+    PARAM_INVALID("00001", "param {} invalid"),
+    USER_NOT_EXISTS("00002", "user {} not exists");
 
     private final String code;
     private final String msg;

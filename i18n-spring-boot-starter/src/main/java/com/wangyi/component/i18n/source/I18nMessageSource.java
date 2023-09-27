@@ -27,10 +27,7 @@ public interface I18nMessageSource {
     Map<String, String> getMessage(String type, List<String> codeList, String language);
 
     /**
-     * 扫描并保存 ResultCode 实现类中的错误码和错误消息
-     * @param type (错误码, 前端页面)
-     * @param codeMsgMap key: 错误码, msg: 默认语言的错误消息
-     * @param language 默认的语言编码
+     * 初始化国际化消息
      */
-    default void initMessage(String type, Map<String, String> codeMsgMap, String language) { }
+    default void initMessage() { }
 }
