@@ -3,7 +3,6 @@
 
     <!--获取 application.properties 中的属性值作为变量 -->
     <springProperty scope="context" name="logPath" source="logging.file.path"/>
-    <springProperty scope="context" name="logLevel" source="logging.level.root"/>
     <springProperty scope="context" name="appName" source="spring.application.name"/>
 
     <!--控制台输出appender-->
@@ -54,7 +53,7 @@
 
     <!-- 开发环境记录到控制台和文件 -->
     <springProfile name="dev">
-        <root level="${logLevel}">
+        <root level="${logging.level:-info}">
             <appender-ref ref="console"/>
             <appender-ref ref="async"/>
         </root>
@@ -62,7 +61,7 @@
 
     <!-- 测试环境记录到控制台和文件 -->
     <springProfile name="test">
-        <root level="${logLevel}">
+        <root level="${logging.level:-info}">
             <appender-ref ref="console"/>
             <appender-ref ref="async"/>
         </root>
@@ -70,7 +69,7 @@
 
     <!-- 生产环境记录日志到文件 -->
     <springProfile name="prod">
-        <root level="${logLevel}">
+        <root level="${logging.level:-info}">
             <appender-ref ref="async"/>
         </root>
     </springProfile>

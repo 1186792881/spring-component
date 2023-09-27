@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: example
+  profiles:
+    active: dev
   config:
     import:
       - optional:nacos:${spring.application.name}.yaml
@@ -68,8 +70,9 @@ spring:
 #  file:
 #    path: ./app-logs
 #  level:
-#    root: info
-  #config: classpath:logging-spring.xml
+#    root: INFO
+#    org.springframework: info
+#  config: classpath:logback-config.xml
 
 # forest Http客户端
 #forest:
