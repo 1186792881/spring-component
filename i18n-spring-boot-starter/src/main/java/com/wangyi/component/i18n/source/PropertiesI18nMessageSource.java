@@ -9,7 +9,6 @@ import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import com.wangyi.component.i18n.config.I18nProperties;
 import com.wangyi.component.i18n.constant.LanguageEnum;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +25,6 @@ import java.util.stream.Collectors;
  */
 @ConditionalOnProperty(value = "i18n.storage", havingValue = "redis")
 @Configuration
-@RequiredArgsConstructor
 public class PropertiesI18nMessageSource implements I18nMessageSource {
 
     private final I18nProperties i18nProperties;
@@ -34,6 +32,10 @@ public class PropertiesI18nMessageSource implements I18nMessageSource {
 
     // key: result_code:zh-CN:example.00001,  value: param invalid
     private final Map<String, String> codeMsgMap = new ConcurrentHashMap<>();
+
+    public PropertiesI18nMessageSource(I18nProperties i18nProperties) {
+        this.i18nProperties = i18nProperties;
+    }
 
     @Override
     public String getMessage(String type, String code, String language) {
