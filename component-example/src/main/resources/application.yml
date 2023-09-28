@@ -71,7 +71,7 @@ spring:
 #    path: ./app-logs
 #  level:
 #    root: INFO
-#    org.springframework: info
+#    com.wangyi: DEBUG
 #  config: classpath:logback-config.xml
 
 # forest Http客户端
