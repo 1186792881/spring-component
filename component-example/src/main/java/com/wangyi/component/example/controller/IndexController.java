@@ -8,7 +8,7 @@ import com.wangyi.component.encrypt.api.annotation.EncryptResponseBody;
 import com.wangyi.component.encrypt.api.enums.EncryptType;
 import com.wangyi.component.example.client.BingClient;
 import com.wangyi.component.example.constant.ExampleResultCode;
-import com.wangyi.component.example.repository.mysql.entity.BumUser;
+import com.wangyi.component.example.repository.mysql.entity.User;
 import com.wangyi.component.example.service.IndexService;
 import com.wangyi.component.example.vo.ReqPublishCreateUserVO;
 import com.wangyi.component.redisson.delay.DelayMessage;
@@ -124,23 +124,17 @@ public class IndexController {
         return Result.success("hello" + name);
     }
 
-    @GetMapping("/getUser")
-    @LogExclude
-    public Result<Object> getUser(Long id) {
-        return Result.success(indexService.getUser(id));
-    }
-
     @GetMapping("/getUser2")
     public Result<Object> getUser2(Long id) {
-        BumUser user = (BumUser) redisTemplate.opsForValue().get("example:bum_user::7033048159756292");
+        User user = (User) redisTemplate.opsForValue().get("example:bum_user::7033048159756292");
         return Result.success(user);
     }
 
     @RateLimiter(max = 5)
     @GetMapping("/getUser3")
     public Result<Object> getUser3(Long id) {
-        RBucket<BumUser> a = redissonClient.getBucket("example:bum_user::7033048159756292");
-        BumUser user = a.get();
+        RBucket<User> a = redissonClient.getBucket("example:bum_user::7033048159756292");
+        User user = a.get();
         return Result.success(user);
     }
 
@@ -188,6 +182,23 @@ public class IndexController {
     @GetMapping("/parseId")
     public Result<String> parseId(Long id) {
         return  Result.success(cachedUidGenerator.parseUID(id));
+    }
+
+    @PostMapping("/user/save")
+    public Result<Void> saveUser(@RequestBody User user) {
+        indexService.saveUser(user);
+        return Result.success();
+    }
+
+    @GetMapping("/user/list")
+    public Result<List<User>> listUser(String searchKey) {
+        return Result.success(indexService.listUser(searchKey));
+    }
+
+    @PostMapping("/user/update")
+    public Result<Void> updateUser(@RequestBody User user) {
+        indexService.updateUser(user);
+        return Result.success();
     }
 
 

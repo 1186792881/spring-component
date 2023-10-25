@@ -1,6 +1,6 @@
-package com.wangyi.component.encrypt.api.handler;
+package com.wangyi.component.encrypt.data.handler;
 
-import com.wangyi.component.encrypt.api.enums.EncryptKeyType;
+import com.wangyi.component.encrypt.data.enums.EncryptKeyType;
 import lombok.Data;
 
 @Data

@@ -82,9 +82,20 @@
             <version>1.4.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.wangyi.component</groupId>
+            <artifactId>encrypt-data-spring-boot-starter</artifactId>
+        </dependency>
+
         <!--<dependency>
             <groupId>io.github.whitedg</groupId>
             <artifactId>mybatis-crypto-spring-boot-starter</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.whitedg</groupId>
+            <artifactId>mybatis-crypto-encryptors</artifactId>
             <version>1.2.4</version>
         </dependency>-->
 

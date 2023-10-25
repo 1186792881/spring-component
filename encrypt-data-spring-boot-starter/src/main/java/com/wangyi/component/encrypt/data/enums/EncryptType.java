@@ -1,4 +1,4 @@
-package com.wangyi.component.encrypt.api.enums;
+package com.wangyi.component.encrypt.data.enums;
 
 /**
  * 加密方式

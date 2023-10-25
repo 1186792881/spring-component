@@ -1,7 +1,7 @@
 package com.wangyi.component.encrypt.api.config;
 
-import com.wangyi.component.encrypt.api.key.DefaultEncryptKeyProvider;
-import com.wangyi.component.encrypt.api.key.EncryptKeyProvider;
+import com.wangyi.component.encrypt.api.key.DefaultApiEncryptApiKeyProvider;
+import com.wangyi.component.encrypt.api.key.EncryptApiKeyProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -15,13 +15,13 @@ public class EncryptApiAutoConfiguration {
 
     /**
      * 默认的加解密密钥提供者, 通过配置文件去配置密钥
-     * @param encryptProperties
+     * @param encryptApiProperties
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean(EncryptKeyProvider.class)
-    public EncryptKeyProvider keyProvider(EncryptProperties encryptProperties) {
-        return new DefaultEncryptKeyProvider(encryptProperties);
+    @ConditionalOnMissingBean(EncryptApiKeyProvider.class)
+    public EncryptApiKeyProvider encryptApiKeyProvider(EncryptApiProperties encryptApiProperties) {
+        return new DefaultApiEncryptApiKeyProvider(encryptApiProperties);
     }
 
 }

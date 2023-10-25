@@ -1,4 +1,4 @@
-package com.wangyi.component.encrypt.api.handler;
+package com.wangyi.component.encrypt.data.handler;
 
 public interface EncryptHandler {
 
