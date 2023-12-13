@@ -1,4 +1,4 @@
-package com.wangyi.component.i18n.source;
+package com.wangyi.component.i18n.source.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
@@ -7,7 +7,8 @@ import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.cloud.nacos.NacosConfigManager;
 import com.alibaba.nacos.api.config.listener.Listener;
-import com.wangyi.component.i18n.config.I18nProperties;
+import com.wangyi.component.i18n.config.properties.I18nProperties;
+import com.wangyi.component.i18n.source.I18nMessageSource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
 import java.io.StringReader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +27,8 @@ import java.util.concurrent.Executor;
 
 @ConditionalOnBean(NacosConfigManager.class)
 @ConditionalOnProperty(value = "i18n.storage", havingValue = "nacos")
-@Lazy
 @Configuration
+@Lazy
 @Slf4j
 public class NacosI18nMessageSource implements I18nMessageSource {
 
@@ -43,19 +45,25 @@ public class NacosI18nMessageSource implements I18nMessageSource {
     }
 
     @Override
-    public String getMessage(String type, String code, String language) {
-        Map<String, String> map = getMessage(type, ListUtil.toList(code), language);
+    public String getMessage(String type, String language, String code) {
+        if (StrUtil.hasBlank(type, code, language)) {
+            return null;
+        }
+
+        Map<String, String> map = getMessage(type, language, ListUtil.toList(code));
         return map.get(code);
     }
 
     @Override
-    public Map<String, String> getMessage(String type, List<String> codeList, String language) {
-        Map<String, String> map = new HashMap<>();
-
-        if (CollUtil.isEmpty(codeList) || MapUtil.isEmpty(typeCodeMsgMap)) {
-            return map;
+    public Map<String, String> getMessage(String type, String language, List<String> codeList) {
+        if (StrUtil.hasBlank(type, language) || CollUtil.isEmpty(codeList)) {
+            return Collections.emptyMap();
         }
 
+        Map<String, String> map = new HashMap<>();
+        if (MapUtil.isEmpty(typeCodeMsgMap)) {
+            return map;
+        }
         for (String code : codeList) {
             String key = StrUtil.join(StrPool.COLON, type, language);
             Map<String, String> codeMsgMap = typeCodeMsgMap.get(key);
@@ -64,15 +72,14 @@ public class NacosI18nMessageSource implements I18nMessageSource {
             }
             map.put(code, codeMsgMap.get(code));
         }
-
         return map;
     }
 
     @SneakyThrows
     @Override
     public void initMessage() {
-        String group = i18nProperties.getNacosI18nGroup();
-        List<String> dataIdList = i18nProperties.getNacosI18nDataIdList();
+        String group = i18nProperties.getNacos().getI18nGroup();
+        List<String> dataIdList = i18nProperties.getNacos().getI18nDataIdList();
         if (CollUtil.isEmpty(dataIdList)) {
             return;
         }
@@ -100,7 +107,7 @@ public class NacosI18nMessageSource implements I18nMessageSource {
 
     @SneakyThrows
     private synchronized void refreshConfig(String dataId, String content) {
-
+        // i18n_result_code_zh-CN.properties
         // 清除本地缓存中的配置
         String beforeName = StrUtil.subBefore(dataId, dataIdExt, true);
         String language = StrUtil.subAfter(beforeName, StrUtil.UNDERLINE, true);

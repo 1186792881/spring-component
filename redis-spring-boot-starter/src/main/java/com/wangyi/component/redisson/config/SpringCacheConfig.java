@@ -1,4 +1,4 @@
-package com.wangyi.component.redisson.cache;
+package com.wangyi.component.redisson.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangyi.component.redisson.util.SpElUtil;

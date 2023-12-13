@@ -1,6 +1,5 @@
 package com.wangyi.component.i18n.source;
 
-import com.wangyi.component.i18n.source.I18nMessageSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

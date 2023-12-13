@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.wangyi.component.uid.core.config.UidRedisConfiguration
+com.wangyi.component.uid.core.config.UidConfiguration

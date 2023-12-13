@@ -5,7 +5,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
-import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.wangyi.component.encrypt.data.annotation.EncryptField;
 import com.wangyi.component.encrypt.data.config.EncryptDataProperties;
 import com.wangyi.component.encrypt.data.handler.EncryptBody;
@@ -72,7 +71,7 @@ public class MybatisEncryptionPlugin implements Interceptor {
             Object result = invocation.proceed();
             if (keepParameter) {
                 // doDecrypt(parameter, ms);
-                parameter = copyParameter;
+                BeanUtil.copyProperties(copyParameter, parameter);
             }
             return result;
         } else {

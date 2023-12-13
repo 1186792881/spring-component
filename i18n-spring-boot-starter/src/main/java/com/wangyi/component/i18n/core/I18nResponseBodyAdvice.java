@@ -58,7 +58,7 @@ public class I18nResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         ObjectProvider<I18nMessageSource> messageSourceProvider = SpringUtil.getApplicationContext().getBeanProvider(I18nMessageSource.class);
         I18nMessageSource i18nMessageSource = messageSourceProvider.getIfAvailable();
         if (null != i18nMessageSource) {
-            String i18nMsg = i18nMessageSource.getMessage(I18nTypeEnum.RESULT_CODE.getValue(), code, language);
+            String i18nMsg = i18nMessageSource.getMessage(I18nTypeEnum.RESULT_CODE.getValue(), language, code);
             if (StrUtil.isNotBlank(i18nMsg)) {
                 msg = i18nMsg;
             }

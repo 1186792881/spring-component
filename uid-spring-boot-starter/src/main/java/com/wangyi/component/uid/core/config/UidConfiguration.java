@@ -4,6 +4,7 @@ import com.wangyi.component.uid.core.impl.CachedUidGenerator;
 import com.wangyi.component.uid.core.resposity.AssignerMode;
 import com.wangyi.component.uid.core.resposity.DisposableWorkerIdAssigner;
 import com.wangyi.component.uid.core.resposity.WorkerNodeResposity;
+import com.wangyi.component.uid.core.resposity.impl.WorkerNodeDefault;
 import com.wangyi.component.uid.core.resposity.impl.WorkerNodeRedis;
 import com.wangyi.component.uid.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
@@ -24,17 +24,23 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 @Configuration
 @ComponentScan("com.wangyi.component.uid")
 @EnableConfigurationProperties(UidProperties.class)
-public class UidRedisConfiguration {
+public class UidConfiguration {
 
     @Autowired
     private UidProperties uidProperties;
 
     @Bean
-    @Primary
-    @ConditionalOnProperty(value = "uid.assigner-mode", havingValue = AssignerMode.REDIS, matchIfMissing = true)
+    @ConditionalOnProperty(value = "uid.assigner-mode", havingValue = AssignerMode.REDIS)
     @Lazy
-    public WorkerNodeResposity workerNodeResposity(StringRedisTemplate stringRedisTemplate) {
+    public WorkerNodeResposity redisWorkerNodeResposity(StringRedisTemplate stringRedisTemplate) {
         return new WorkerNodeRedis( stringRedisTemplate, uidProperties);
+    }
+
+    @Bean
+    @ConditionalOnProperty(value = "uid.assigner-mode", havingValue = AssignerMode.DEFAULT, matchIfMissing = true)
+    @Lazy
+    public WorkerNodeResposity defaultWorkerNodeResposity() {
+        return new WorkerNodeDefault(uidProperties);
     }
 
     @Bean

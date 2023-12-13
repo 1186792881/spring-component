@@ -17,7 +17,6 @@ public class ComponentI18nAutoConfiguration {
 
     @Bean
     @Lazy
-    @ConditionalOnProperty(value = "i18n.enableInit", havingValue = "true", matchIfMissing = true)
     public I18nMessageInitRunner i18nMessageInitRunner(I18nMessageSource i18nMessageSource) {
         return new I18nMessageInitRunner(i18nMessageSource);
     }

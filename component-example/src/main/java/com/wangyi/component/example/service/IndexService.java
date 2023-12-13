@@ -2,12 +2,11 @@ package com.wangyi.component.example.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.wangyi.component.encrypt.data.annotation.EncryptField;
-import com.wangyi.component.encrypt.data.enums.EncryptType;
 import com.wangyi.component.example.repository.mysql.dao.UserDao;
 import com.wangyi.component.example.repository.mysql.entity.User;
 import com.wangyi.component.redisson.lock.DistributedLock;
 import com.wangyi.component.uid.core.impl.CachedUidGenerator;
+import com.wangyi.component.web.annotation.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -35,6 +34,7 @@ public class IndexService {
         return "hello" + id;
     }
 
+    @Log
     @Cacheable(cacheNames = "org", key = "#id")
     public Map<String, Object> getOrg(String id) {
         Map<String, Object> map = new HashMap<>();

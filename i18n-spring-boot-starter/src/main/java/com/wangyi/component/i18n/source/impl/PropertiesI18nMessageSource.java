@@ -1,4 +1,4 @@
-package com.wangyi.component.i18n.source;
+package com.wangyi.component.i18n.source.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
@@ -7,12 +7,14 @@ import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
-import com.wangyi.component.i18n.config.I18nProperties;
+import com.wangyi.component.i18n.config.properties.I18nProperties;
 import com.wangyi.component.i18n.constant.LanguageEnum;
+import com.wangyi.component.i18n.source.I18nMessageSource;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * 从配置文件或配置中心获取国际化信息
  */
-@ConditionalOnProperty(value = "i18n.storage", havingValue = "redis")
+@ConditionalOnProperty(value = "i18n.storage", havingValue = "properties", matchIfMissing = true)
 @Configuration
 public class PropertiesI18nMessageSource implements I18nMessageSource {
 
@@ -38,24 +40,29 @@ public class PropertiesI18nMessageSource implements I18nMessageSource {
     }
 
     @Override
-    public String getMessage(String type, String code, String language) {
-        Map<String, String> map = getMessage(type, ListUtil.toList(code), language);
+    public String getMessage(String type, String language, String code) {
+        if (StrUtil.hasBlank(type, code, language)) {
+            return null;
+        }
+
+        Map<String, String> map = getMessage(type, language, ListUtil.toList(code));
         return map.get(code);
     }
 
     @Override
-    public Map<String, String> getMessage(String type, List<String> codeList, String language) {
-        Map<String, String> map = new HashMap<>();
-
-        if (CollUtil.isEmpty(codeList) || MapUtil.isEmpty(codeMsgMap)) {
-            return map;
+    public Map<String, String> getMessage(String type, String language, List<String> codeList) {
+        if (StrUtil.hasBlank(type, language) || CollUtil.isEmpty(codeList)) {
+            return Collections.emptyMap();
         }
 
+        Map<String, String> map = new HashMap<>();
+        if (MapUtil.isEmpty(codeMsgMap)) {
+            return map;
+        }
         for (String code : codeList) {
             String key = StrUtil.join(StrPool.COLON, type, language, code);
             map.put(code, codeMsgMap.get(key));
         }
-
         return map;
     }
 

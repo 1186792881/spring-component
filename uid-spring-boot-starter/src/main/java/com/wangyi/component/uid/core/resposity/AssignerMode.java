@@ -7,10 +7,8 @@ import com.wangyi.component.uid.core.impl.CachedUidGenerator;
  * @author DengJun 2021/5/11
  */
 public interface AssignerMode {
-    String NONE = "none";
-    String ZK = "zk";
+    String DEFAULT = "default";
     String REDIS = "redis";
-    String DB = "db";
 
     /**
      * 生成器模式

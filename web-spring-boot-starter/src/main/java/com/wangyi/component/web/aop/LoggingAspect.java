@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class LoggingAspect {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    
+
     @Resource
     private ObjectMapper objectMapper;
 
@@ -35,14 +35,7 @@ public class LoggingAspect {
      * 匹配接口的切入点
      */
     @Pointcut(
-            "(" +
-                "@annotation(org.springframework.web.bind.annotation.GetMapping)" +
-                "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
-                "|| @annotation(org.springframework.web.bind.annotation.PutMapping)" +
-                "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)" +
-                "|| @annotation(org.springframework.web.bind.annotation.RequestMapping)" +
-            ")" +
-            "&& !@annotation(com.wangyi.component.web.annotation.LogExclude)"
+            "@annotation(com.wangyi.component.web.annotation.Log)"
     )
     public void apiPointcut() {
         // 方法为空，因为这只是一个切入点，实现在通知中。
@@ -88,9 +81,12 @@ public class LoggingAspect {
     }
 
     private Object filterArgs(Object[] objects) {
-        List<Object> args = Arrays.stream(objects).filter(obj -> !(obj instanceof MultipartFile)
+        List<Object> args = Arrays.stream(objects)
+                .filter(obj -> !(obj instanceof MultipartFile)
                         && !(obj instanceof HttpServletResponse)
-                        && !(obj instanceof HttpServletRequest))
+                        && !(obj instanceof HttpServletRequest)
+                        && !(obj instanceof MultipartFile[])
+                )
                 .collect(Collectors.toList());
         return args.size() == 1 ? args.get(0) : args;
     }

@@ -19,7 +19,7 @@ public class ThreadPoolConfig {
 
     private final int corePoolSize = Runtime.getRuntime().availableProcessors() + 1;
     private final int maxPoolSize = corePoolSize * 2;
-    private static final int queueCapacity = 200;
+    private static final int queueCapacity = 1000;
     private static final int keepAliveSeconds = 60;
 
     @Bean(name = "threadPoolTaskExecutor")

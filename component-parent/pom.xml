@@ -5,7 +5,7 @@
 
     <groupId>com.wangyi.component</groupId>
     <artifactId>component-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>component-parent</name>
@@ -35,12 +35,13 @@
         <bcprov-jdk15to18.version>1.69</bcprov-jdk15to18.version>
 
         <!-- 内部依赖版本统一管理 -->
-        <component-base.version>0.0.1-SNAPSHOT</component-base.version>
-        <encrypt-api-spring-boot-starter.version>0.0.1-SNAPSHOT</encrypt-api-spring-boot-starter.version>
-        <encrypt-data-spring-boot-starter.version>0.0.1-SNAPSHOT</encrypt-data-spring-boot-starter.version>
-        <redis-spring-boot-starter.version>0.0.1-SNAPSHOT</redis-spring-boot-starter.version>
-        <uid-spring-boot-starter.version>0.0.1-SNAPSHOT</uid-spring-boot-starter.version>
-        <web-spring-boot-starter.version>0.0.1-SNAPSHOT</web-spring-boot-starter.version>
+        <component-base.version>1.0.0-SNAPSHOT</component-base.version>
+        <encrypt-api-spring-boot-starter.version>1.0.0-SNAPSHOT</encrypt-api-spring-boot-starter.version>
+        <encrypt-data-spring-boot-starter.version>1.0.0-SNAPSHOT</encrypt-data-spring-boot-starter.version>
+        <redis-spring-boot-starter.version>1.0.0-SNAPSHOT</redis-spring-boot-starter.version>
+        <uid-spring-boot-starter.version>1.0.0-SNAPSHOT</uid-spring-boot-starter.version>
+        <web-spring-boot-starter.version>1.0.0-SNAPSHOT</web-spring-boot-starter.version>
+        <i18n-spring-boot-starter.version>1.0.0-SNAPSHOT</i18n-spring-boot-starter.version>
 
     </properties>
 
@@ -121,6 +122,11 @@
                 <groupId>com.wangyi.component</groupId>
                 <artifactId>web-spring-boot-starter</artifactId>
                 <version>${web-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wangyi.component</groupId>
+                <artifactId>i18n-spring-boot-starter</artifactId>
+                <version>${i18n-spring-boot-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
