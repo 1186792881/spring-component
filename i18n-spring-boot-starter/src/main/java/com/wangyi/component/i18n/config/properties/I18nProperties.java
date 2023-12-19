@@ -33,12 +33,19 @@ public class I18nProperties {
     private String i18nStoragePrefix = "i18n";
 
     /**
-     * 国际化, 本地缓存失效时间 单位毫秒
+     * 是否启用本地缓存, 默认 true
      */
-    private Long localCacheTimeOut = 3600 * 1000L;
+    private Boolean enableLocalCache = true;
 
     /**
-     * 本地缓存国际化最大个数
+     * 本地缓存失效时间(单位毫秒), 默认 24 小时
+     * 0 表示不失效
+     */
+    private Long localCacheTimeOut = 24 * 3600 * 1000L;
+
+    /**
+     * 本地缓存国际化最大个数, 默认 2000 个
+     * 0 表示不限制个数
      */
     private Integer localCacheCapacity = 2000;
 

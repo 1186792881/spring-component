@@ -1,13 +1,14 @@
 package com.wangyi.component.i18n.source.impl;
 
-import cn.hutool.cache.impl.LFUCache;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Pair;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import com.wangyi.component.i18n.config.properties.I18nProperties;
 import com.wangyi.component.i18n.source.I18nMessageSource;
 import com.wangyi.component.i18n.source.entity.I18n;
+import com.wangyi.component.i18n.util.I18nCacheUtil;
 import com.wangyi.component.i18n.util.ScanUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
@@ -31,14 +32,12 @@ public class RedisI18nMessageSource implements I18nMessageSource {
 
     private final StringRedisTemplate stringRedisTemplate;
     private final I18nProperties i18nProperties;
-
-    // key: i18n:result_code:zh-CN:example.00001
-    private final LFUCache<String, String> localCache;
+    private final I18nCacheUtil i18nCacheUtil;
 
     public RedisI18nMessageSource(StringRedisTemplate stringRedisTemplate, I18nProperties i18nProperties) {
         this.stringRedisTemplate = stringRedisTemplate;
         this.i18nProperties = i18nProperties;
-        this.localCache = new LFUCache<>(i18nProperties.getLocalCacheCapacity());
+        this.i18nCacheUtil = new I18nCacheUtil(i18nProperties);
     }
 
     @Override
@@ -47,16 +46,8 @@ public class RedisI18nMessageSource implements I18nMessageSource {
             return null;
         }
 
-        String localCacheKey = i18nProperties.getCacheKey(type, language, code);
-        String msg = localCache.get(localCacheKey, false);
-        if (null == msg) {
-            Map<String, String> msgMap = getMessage(type, language, CollUtil.newArrayList(code));
-            msg = msgMap.get(code);
-            if (null != msg) {
-                localCache.put(localCacheKey, msg, i18nProperties.getLocalCacheTimeOut());
-            }
-        }
-        return msg;
+        Map<String, String> msgMap = getMessage(type, language, CollUtil.newArrayList(code));
+        return msgMap.get(code);
     }
 
     @Override
@@ -65,14 +56,27 @@ public class RedisI18nMessageSource implements I18nMessageSource {
             return Collections.emptyMap();
         }
 
-        Map<String, String> map = new HashMap<>();
+        // 先从本地缓存获取
+        Pair<List<String>, Map<String, String>> pair = i18nCacheUtil.getCache(type, language, codeList);
+        List<String> unCacheCodeList = pair.getKey();
+        Map<String, String> map = pair.getValue();
+        if (CollUtil.isEmpty(unCacheCodeList)) {
+            return map;
+        }
+
+        // 从redis取, 并加入本地缓存
         String redisKey = StrUtil.join(StrUtil.COLON, i18nProperties.getI18nStoragePrefix(), type, language);
-        List<Object> msgList = stringRedisTemplate.opsForHash().multiGet(redisKey, new ArrayList<>(codeList));
-        for (int i = 0; i < codeList.size(); i++) {
+        List<Object> msgList = stringRedisTemplate.opsForHash().multiGet(redisKey, new ArrayList<>(unCacheCodeList));
+        Map<String, String> unCacheMap = new HashMap<>(msgList.size());
+        for (int i = 0; i < unCacheCodeList.size(); i++) {
             String code = codeList.get(i);
             String msg = (String) msgList.get(i);
-            map.put(code, msg);
+            unCacheMap.put(code, msg);
         }
+        i18nCacheUtil.putCache(type, language, unCacheMap);
+
+        // 返回所有查询到的国际化信息
+        map.putAll(unCacheMap);
         return map;
     }
 

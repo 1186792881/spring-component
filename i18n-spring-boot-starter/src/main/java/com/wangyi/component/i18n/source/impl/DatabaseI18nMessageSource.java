@@ -1,7 +1,7 @@
 package com.wangyi.component.i18n.source.impl;
 
-import cn.hutool.cache.impl.LFUCache;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Pair;
 import cn.hutool.core.lang.func.LambdaUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
@@ -14,6 +14,7 @@ import com.wangyi.component.i18n.config.bean.Database;
 import com.wangyi.component.i18n.config.properties.I18nProperties;
 import com.wangyi.component.i18n.source.I18nMessageSource;
 import com.wangyi.component.i18n.source.entity.I18n;
+import com.wangyi.component.i18n.util.I18nCacheUtil;
 import com.wangyi.component.i18n.util.ScanUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -43,14 +44,13 @@ public class DatabaseI18nMessageSource implements I18nMessageSource {
     private final ObjectProvider<DataSource> dataSourceObjectProvider;
     private final I18nProperties i18nProperties;
     private final DataSource dataSource;
-    // key: i18n:result_code:zh-CN:example.00001
-    private final LFUCache<String, String> localCache;
+    private final I18nCacheUtil i18nCacheUtil;
 
     public DatabaseI18nMessageSource(I18nProperties i18nProperties, ObjectProvider<DataSource> dataSourceObjectProvider) {
         this.dataSourceObjectProvider = dataSourceObjectProvider;
         this.i18nProperties = i18nProperties;
         this.dataSource = initDataSource();
-        this.localCache = new LFUCache<>(i18nProperties.getLocalCacheCapacity());
+        this.i18nCacheUtil = new I18nCacheUtil(i18nProperties);
     }
 
     @Override
@@ -59,16 +59,8 @@ public class DatabaseI18nMessageSource implements I18nMessageSource {
             return null;
         }
 
-        String localCacheKey = i18nProperties.getCacheKey(type, language, code);
-        String value = localCache.get(localCacheKey, false);
-        if (null == value) {
-            Map<String, String> msgMap = getMessage(type, language, CollUtil.newArrayList(code));
-            value = msgMap.get(code);
-            if (null != value) {
-                localCache.put(localCacheKey, value, i18nProperties.getLocalCacheTimeOut());
-            }
-        }
-        return value;
+        Map<String, String> msgMap = getMessage(type, language, CollUtil.newArrayList(code));
+        return msgMap.get(code);
     }
 
     @SneakyThrows
@@ -78,16 +70,29 @@ public class DatabaseI18nMessageSource implements I18nMessageSource {
             return Collections.emptyMap();
         }
 
+        // 先从本地缓存获取
+        Pair<List<String>, Map<String, String>> pair = i18nCacheUtil.getCache(type, language, codeList);
+        List<String> unCacheCodeList = pair.getKey();
+        Map<String, String> map = pair.getValue();
+        if (CollUtil.isEmpty(unCacheCodeList)) {
+            return map;
+        }
+
+        // 从数据库查询未缓存的信息, 并加入本地缓存
         List<Entity> valueList = Db.use(dataSource).query(VALUE_SQL,
                 Entity.of().set(LambdaUtil.getFieldName(I18n::getType), type)
                         .set(LambdaUtil.getFieldName(I18n::getLanguage), language)
-                        .set(LambdaUtil.getFieldName(I18n::getCode), codeList.toArray())
+                        .set(LambdaUtil.getFieldName(I18n::getCode), unCacheCodeList.toArray())
         );
-
-        return valueList.stream()
+        Map<String, String> unCacheMap = valueList.stream()
                 .collect(Collectors.toMap(
                         t -> t.getStr(LambdaUtil.getFieldName(I18n::getCode)),
                         t -> t.getStr(LambdaUtil.getFieldName(I18n::getValue))));
+        i18nCacheUtil.putCache(type, language, unCacheMap);
+
+        // 返回所有查询到的国际化信息
+        map.putAll(unCacheMap);
+        return map;
     }
 
     @SneakyThrows
