@@ -54,27 +54,12 @@
         <appender-ref ref="file"/>
     </appender>
 
-    <!-- 开发环境记录到控制台和文件 -->
-    <springProfile name="dev">
-        <root level="${logging.level:-info}">
+    <!-- 生产环境记录日志到文件, local,dev,test环境记录日志到控制台 -->
+    <root level="${logging.level:-info}">
+        <appender-ref ref="async"/>
+        <springProfile name="local,dev,test">
             <appender-ref ref="console"/>
-            <appender-ref ref="async"/>
-        </root>
-    </springProfile>
-
-    <!-- 测试环境记录到控制台和文件 -->
-    <springProfile name="test">
-        <root level="${logging.level:-info}">
-            <appender-ref ref="console"/>
-            <appender-ref ref="async"/>
-        </root>
-    </springProfile>
-
-    <!-- 生产环境记录日志到文件 -->
-    <springProfile name="prod">
-        <root level="${logging.level:-info}">
-            <appender-ref ref="async"/>
-        </root>
-    </springProfile>
+        </springProfile>
+    </root>
 
 </configuration>

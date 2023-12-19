@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class DatabaseI18nMessageSource implements I18nMessageSource {
 
     private static final String EXIST_SQL = "select count(*) from i18n where type = ? and language = ? and code = ?";
-    private static final String VALUE_SQL = "select code, value from i18n where type = ? and language = ? and code in (?)";
+    private static final String VALUE_SQL = "select code, value from i18n where type = :type and language = :language and code in (:code)";
 
     private final ObjectProvider<DataSource> dataSourceObjectProvider;
     private final I18nProperties i18nProperties;
@@ -78,10 +78,10 @@ public class DatabaseI18nMessageSource implements I18nMessageSource {
             return Collections.emptyMap();
         }
 
-        List<Entity> valueList = Db.use(dataSource).find(Entity.create(I18n.TABLE_NAME)
-                .set(LambdaUtil.getFieldName(I18n::getType), type)
-                .set(LambdaUtil.getFieldName(I18n::getLanguage), language)
-                .set(LambdaUtil.getFieldName(I18n::getCode), codeList)
+        List<Entity> valueList = Db.use(dataSource).query(VALUE_SQL,
+                Entity.of().set(LambdaUtil.getFieldName(I18n::getType), type)
+                        .set(LambdaUtil.getFieldName(I18n::getLanguage), language)
+                        .set(LambdaUtil.getFieldName(I18n::getCode), codeList.toArray())
         );
 
         return valueList.stream()
