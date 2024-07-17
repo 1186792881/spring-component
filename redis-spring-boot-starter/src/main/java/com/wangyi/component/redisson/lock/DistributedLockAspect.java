@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
-@Order(Integer.MIN_VALUE)
+@Order(Integer.MIN_VALUE + 1)
 @Aspect
 @Component
 public class DistributedLockAspect {

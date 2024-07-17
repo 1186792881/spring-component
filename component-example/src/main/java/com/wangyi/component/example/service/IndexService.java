@@ -1,6 +1,7 @@
 package com.wangyi.component.example.service;
 
 import cn.hutool.core.util.StrUtil;
+import cn.yueshutong.springbootstartercurrentlimiting.annotation.CurrentLimiter;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.wangyi.component.example.repository.mysql.dao.UserDao;
 import com.wangyi.component.example.repository.mysql.entity.User;
@@ -95,5 +96,10 @@ public class IndexService {
                 .set(User::getPhone, user.getPhone())
                 .eq(User::getId, user.getId())
                 .update();
+    }
+
+    @CurrentLimiter(QPS = 2)
+    public void limit() {
+        log.info("limit >>>>>>>>>>>>");
     }
 }

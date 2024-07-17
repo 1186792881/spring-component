@@ -12,6 +12,7 @@ import com.wangyi.component.i18n.source.I18nMessageSource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -25,6 +26,7 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 
+@ConditionalOnClass(NacosConfigManager.class)
 @ConditionalOnBean(NacosConfigManager.class)
 @ConditionalOnProperty(value = "i18n.storage", havingValue = "nacos")
 @Configuration

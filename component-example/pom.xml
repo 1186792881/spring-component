@@ -60,24 +60,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.alibaba.nacos</groupId>
-                    <artifactId>nacos-client</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- nacos 2.0 以上版本的客户端需要, nacos服务端多开rpc的端口才能访问 -->
-        <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-client</artifactId>
-            <version>1.4.2</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.wangyi.component</groupId>
             <artifactId>encrypt-data-spring-boot-starter</artifactId>
         </dependency>
@@ -93,6 +75,13 @@
             <artifactId>mybatis-crypto-encryptors</artifactId>
             <version>1.2.4</version>
         </dependency>-->
+
+
+        <dependency>
+            <groupId>cn.yueshutong</groupId>
+            <artifactId>spring-boot-starter-current-limiting</artifactId>
+            <version>0.0.1.RELEASE</version>
+        </dependency>
 
     </dependencies>
 
