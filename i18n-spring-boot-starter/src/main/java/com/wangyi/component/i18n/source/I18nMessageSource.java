@@ -27,7 +27,13 @@ public interface I18nMessageSource {
     Map<String, String> getMessage(String type, String language, List<String> codeList);
 
     /**
+     * 清除本地缓存
+     */
+    default void clearLocalCache() {}
+
+    /**
      * 初始化国际化消息
      */
     default void initMessage() { }
+
 }

@@ -1,4 +1,4 @@
-package com.wangyi.component.redisson.ratelimit;
+package com.wangyi.component.redisson.ratelimit.window;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

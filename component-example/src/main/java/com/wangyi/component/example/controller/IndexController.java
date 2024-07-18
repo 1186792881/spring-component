@@ -14,7 +14,7 @@ import com.wangyi.component.example.vo.ReqPublishCreateUserVO;
 import com.wangyi.component.redisson.delay.DelayMessage;
 import com.wangyi.component.redisson.delay.DelayMessageUtil;
 import com.wangyi.component.redisson.lock.DistributedLockUtil;
-import com.wangyi.component.redisson.ratelimit.RateLimiter;
+import com.wangyi.component.redisson.ratelimit.window.RateLimiter;
 import com.wangyi.component.uid.core.impl.CachedUidGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBucket;

@@ -81,6 +81,11 @@ public class RedisI18nMessageSource implements I18nMessageSource {
     }
 
     @Override
+    public void clearLocalCache() {
+        i18nCacheUtil.clearCache();
+    }
+
+    @Override
     public void initMessage() {
         // key->i18n:result_code:zh-CN, value->{code, msg}
         List<I18n> i18nList = ScanUtil.scanI18nEnum(i18nProperties);

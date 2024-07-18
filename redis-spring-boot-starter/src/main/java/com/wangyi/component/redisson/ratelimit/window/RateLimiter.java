@@ -1,4 +1,4 @@
-package com.wangyi.component.redisson.ratelimit;
+package com.wangyi.component.redisson.ratelimit.window;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

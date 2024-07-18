@@ -75,4 +75,10 @@ public class I18nCacheUtil {
         });
     }
 
+    /**
+     * 清空缓存
+     */
+    public void clearCache() {
+        localCache.clear();
+    }
 }

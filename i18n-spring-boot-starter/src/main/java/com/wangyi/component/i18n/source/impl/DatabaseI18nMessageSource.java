@@ -95,6 +95,11 @@ public class DatabaseI18nMessageSource implements I18nMessageSource {
         return map;
     }
 
+    @Override
+    public void clearLocalCache() {
+        i18nCacheUtil.clearCache();
+    }
+
     @SneakyThrows
     @Override
     public void initMessage() {

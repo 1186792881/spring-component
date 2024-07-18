@@ -1,5 +1,6 @@
-package com.wangyi.component.redisson.ratelimit;
+package com.wangyi.component.redisson.ratelimit.window;
 
+import com.wangyi.component.redisson.ratelimit.RateLimitException;
 import com.wangyi.component.redisson.util.SpElUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -23,7 +24,7 @@ public class RateLimiterAspect {
     @Resource
     private RateLimitUtil rateLimitUtil;
 
-    @Pointcut("@annotation(com.wangyi.component.redisson.ratelimit.RateLimiter)")
+    @Pointcut("@annotation(com.wangyi.component.redisson.ratelimit.window.RateLimiter)")
     public void rateLimit() {
 
     }
