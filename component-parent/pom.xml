@@ -15,6 +15,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.4</version>
+<!--        <version>2.5.6</version>-->
         <relativePath/>
     </parent>
 
@@ -33,6 +34,7 @@
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <bcprov-jdk15to18.version>1.69</bcprov-jdk15to18.version>
+        <spring-brick.version>3.1.2</spring-brick.version>
 
         <!-- 内部依赖版本统一管理 -->
         <component-base.version>1.0.0-SNAPSHOT</component-base.version>
@@ -90,6 +92,16 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15to18</artifactId>
                 <version>${bcprov-jdk15to18.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gitee.starblues</groupId>
+                <artifactId>spring-brick</artifactId>
+                <version>${spring-brick.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gitee.starblues</groupId>
+                <artifactId>spring-brick-bootstrap</artifactId>
+                <version>${spring-brick.version}</version>
             </dependency>
 
             <!-- 内部依赖 -->

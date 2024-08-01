@@ -1,0 +1,8 @@
+plugin:
+  #主程序扫描的包名 插件包名不能和主程序包名一致，如需一致，需遵循：插件包名范围小于等于主程序包名
+  mainPackage: com.wangyi.component.plugin.main
+  #运行模式, 开发环境: dev; 生产环境: prod
+  runMode: prod
+  #插件目录或者插件上级目录，可配置多个
+  pluginPath:
+    - ~\component-plugin\spring-brick-plugins-prod

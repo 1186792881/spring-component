@@ -200,13 +200,4 @@ public class IndexController {
         return Result.success();
     }
 
-    @GetMapping("/limit")
-    public Result<Void> limit() {
-        for (int i = 0; i < 10; i++) {
-            indexService.limit();
-        }
-        return Result.success();
-    }
-
-
 }

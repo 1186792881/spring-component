@@ -57,7 +57,7 @@
     <!-- 生产环境记录日志到文件, local,dev,test环境记录日志到控制台 -->
     <root level="${logging.level:-info}">
         <appender-ref ref="async"/>
-        <springProfile name="local,dev,test">
+        <springProfile name="local,dev,test,prod">
             <appender-ref ref="console"/>
         </springProfile>
     </root>

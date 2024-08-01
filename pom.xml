@@ -30,6 +30,7 @@
         <module>i18n-spring-boot-starter</module>
         <module>encrypt-api-spring-boot-starter</module>
         <module>encrypt-data-spring-boot-starter</module>
+        <module>component-plugin</module>
     </modules>
 
 </project>

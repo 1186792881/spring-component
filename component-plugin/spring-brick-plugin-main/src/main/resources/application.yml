@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: plugin-main
+  profiles:
+    active: prod
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+#日志
+logging:
+  file:
+    path: ./app-logs
+  level:
+    root: INFO
+    com.wangyi: DEBUG
+  config: classpath:logback-config.xml
+
+
