@@ -14,7 +14,8 @@ import com.wangyi.component.example.vo.ReqPublishCreateUserVO;
 import com.wangyi.component.redisson.delay.DelayMessage;
 import com.wangyi.component.redisson.delay.DelayMessageUtil;
 import com.wangyi.component.redisson.lock.DistributedLockUtil;
-import com.wangyi.component.redisson.ratelimit.window.RateLimiter;
+import com.wangyi.component.redisson.ratelimit.bucket.BucketRateLimiter;
+import com.wangyi.component.redisson.ratelimit.window.WindowRateLimiter;
 import com.wangyi.component.uid.core.impl.CachedUidGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBucket;
@@ -129,9 +130,17 @@ public class IndexController {
         return Result.success(user);
     }
 
-    @RateLimiter(max = 5)
+    @WindowRateLimiter(max = 5)
     @GetMapping("/getUser3")
-    public Result<Object> getUser3(Long id) {
+    public Result<Object> getUser3() {
+        RBucket<User> a = redissonClient.getBucket("example:bum_user::7033048159756292");
+        User user = a.get();
+        return Result.success(user);
+    }
+
+    @BucketRateLimiter(key = "getUser4")
+    @GetMapping("/getUser4")
+    public Result<Object> getUser4() {
         RBucket<User> a = redissonClient.getBucket("example:bum_user::7033048159756292");
         User user = a.get();
         return Result.success(user);

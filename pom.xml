@@ -31,6 +31,7 @@
         <module>encrypt-api-spring-boot-starter</module>
         <module>encrypt-data-spring-boot-starter</module>
         <module>component-plugin-example</module>
+        <module>plugin-spring-boot-starter</module>
     </modules>
 
 </project>

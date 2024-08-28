@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class RateLimitUtil {
+public class WindowRateLimiterUtil {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -28,7 +28,7 @@ public class RateLimitUtil {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    public RateLimitUtil() {
+    public WindowRateLimiterUtil() {
         this.limitRedisScript = new DefaultRedisScript<>();
         limitRedisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("redis/slider_window_ratelimit.lua")));
         limitRedisScript.setResultType(Long.class);

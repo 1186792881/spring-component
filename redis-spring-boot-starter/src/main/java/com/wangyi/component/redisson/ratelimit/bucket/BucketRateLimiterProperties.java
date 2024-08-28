@@ -12,7 +12,7 @@ import java.util.Map;
 @ConfigurationProperties("rate-limit")
 @Component
 @Data
-public class RateLimitProperties {
+public class BucketRateLimiterProperties {
 
     /**
      * 是否启用
@@ -39,9 +39,9 @@ public class RateLimitProperties {
 
         /**
          * 往令牌桶中添加令牌的时间间隔
-         * 默认 1 秒
+         * 默认 1000 毫秒
          */
-        private Long rateInterval = 1L;
+        private Long rateInterval = 1000L;
 
         /**
          * 获取令牌最大等待时间
@@ -55,7 +55,7 @@ public class RateLimitProperties {
      */
     public LimiterConfig getLimiterConfig(String key) {
         if (null == limiter || !limiter.containsKey(key)) {
-            return new LimiterConfig();
+            return null;
         }
         return limiter.get(key);
     }

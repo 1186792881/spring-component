@@ -35,6 +35,7 @@
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <bcprov-jdk15to18.version>1.69</bcprov-jdk15to18.version>
         <spring-brick.version>3.1.2</spring-brick.version>
+        <transmittable-thread-local.version>2.14.4</transmittable-thread-local.version>
 
         <!-- 内部依赖版本统一管理 -->
         <component-base.version>1.0.0-SNAPSHOT</component-base.version>
@@ -102,6 +103,11 @@
                 <groupId>com.gitee.starblues</groupId>
                 <artifactId>spring-brick-bootstrap</artifactId>
                 <version>${spring-brick.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable-thread-local.version}</version>
             </dependency>
 
             <!-- 内部依赖 -->

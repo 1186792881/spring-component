@@ -1,5 +1,6 @@
 package com.wangyi.component.web.config;
 
+import com.alibaba.ttl.threadpool.TtlExecutors;
 import com.wangyi.component.base.constant.BaseConstant;
 import org.slf4j.MDC;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +33,10 @@ public class ThreadPoolConfig {
         executor.setTaskDecorator(new MdcTaskDecorator());
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
+
+
+        //return TtlExecutors.getTtlExecutor(executor);
+
         return executor;
     }
 

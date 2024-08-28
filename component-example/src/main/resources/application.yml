@@ -82,3 +82,11 @@ encrypt:
 
 i18n:
   storage: properties
+
+
+rate-limit:
+  limiter:
+    getUser4:
+      rate: 1
+      rateInterval: 5000
+      timeout: 0

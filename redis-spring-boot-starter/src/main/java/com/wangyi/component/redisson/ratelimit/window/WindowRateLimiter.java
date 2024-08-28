@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface RateLimiter {
+public @interface WindowRateLimiter {
 
     /**
      * max 最大请求数

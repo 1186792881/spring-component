@@ -5,8 +5,8 @@
     <!--获取 application.properties 中的属性值作为变量 -->
     <springProperty scope="context" name="logPath" source="logging.file.path"/>
     <springProperty scope="context" name="appName" source="spring.application.name"/>
-    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-    <property name="pattern" value = "%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{TRACE_ID}] [%thread] %-5level %logger{50} - %msg%n"/>
+    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %l行号 %msg：日志消息，%n是换行符-->
+    <property name="pattern" value = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%X{TRACE_ID}] [%thread] [%-5level] [%logger{50}-%L] - %msg%n"/>
 
     <!--控制台输出appender-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -57,7 +57,7 @@
     <!-- 生产环境记录日志到文件, local,dev,test环境记录日志到控制台 -->
     <root level="${logging.level:-info}">
         <appender-ref ref="async"/>
-        <springProfile name="local,dev,test,prod">
+        <springProfile name="local,dev,test">
             <appender-ref ref="console"/>
         </springProfile>
     </root>

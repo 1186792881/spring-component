@@ -17,14 +17,14 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 @Aspect
-public class RateLimiterAspect {
+public class WindowRateLimiterAspect {
 
     private static final String SEPARATOR = ":";
 
     @Resource
-    private RateLimitUtil rateLimitUtil;
+    private WindowRateLimiterUtil windowRateLimiterUtil;
 
-    @Pointcut("@annotation(com.wangyi.component.redisson.ratelimit.window.RateLimiter)")
+    @Pointcut("@annotation(com.wangyi.component.redisson.ratelimit.window.WindowRateLimiter)")
     public void rateLimit() {
 
     }
@@ -34,7 +34,7 @@ public class RateLimiterAspect {
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
         // 通过 AnnotationUtils.findAnnotation 获取 RateLimiter 注解
-        RateLimiter rateLimiter = AnnotationUtils.findAnnotation(method, RateLimiter.class);
+        WindowRateLimiter rateLimiter = AnnotationUtils.findAnnotation(method, WindowRateLimiter.class);
         if (rateLimiter != null) {
             String keyPrefix = StringUtils.hasLength(rateLimiter.keyPrefix()) ? rateLimiter.keyPrefix() : SpElUtil.getMethodKey(method);
             String key = SpElUtil.parseSpEl(method, rateLimiter.key(), point.getArgs());
@@ -43,7 +43,7 @@ public class RateLimiterAspect {
             long max = rateLimiter.max();
             long window = rateLimiter.window();
             TimeUnit timeUnit = rateLimiter.timeUnit();
-            boolean limited = rateLimitUtil.shouldLimited(rateLimitKey, max, window, timeUnit);
+            boolean limited = windowRateLimiterUtil.shouldLimited(rateLimitKey, max, window, timeUnit);
             if (limited) {
                 throw new RateLimitException("触发限流, key: " + rateLimitKey);
             }

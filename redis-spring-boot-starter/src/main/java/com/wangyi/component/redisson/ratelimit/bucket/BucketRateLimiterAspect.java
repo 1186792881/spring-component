@@ -14,20 +14,20 @@ import java.lang.reflect.Method;
 @Slf4j
 @Aspect
 @Component
-public class RateLimitAspect {
+public class BucketRateLimiterAspect {
 
     @Resource
-    private RateLimitUtil rateLimitUtil;
+    private BucketRateLimiterUtil bucketRateLimiterUtil;
 
-    @Around("@annotation(RateLimiter)")
+    @Around("@annotation(com.wangyi.component.redisson.ratelimit.bucket.BucketRateLimiter)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        RateLimiter limit = AnnotationUtils.findAnnotation(method, RateLimiter.class);
+        BucketRateLimiter limit = AnnotationUtils.findAnnotation(method, BucketRateLimiter.class);
         if (null == limit) {
             return joinPoint.proceed();
         }
 
-        return rateLimitUtil.tryAcquire(limit.key(), () -> {
+        return bucketRateLimiterUtil.tryAcquire(limit.key(), limit.rate(), limit.rateInterval(), limit.timeout(), () -> {
             try {
                 return joinPoint.proceed();
             } catch (Throwable e) {
