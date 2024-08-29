@@ -33,7 +33,7 @@ public class UidConfiguration {
     @ConditionalOnProperty(value = "uid.assigner-mode", havingValue = AssignerMode.REDIS)
     @Lazy
     public WorkerNodeResposity redisWorkerNodeResposity(StringRedisTemplate stringRedisTemplate) {
-        return new WorkerNodeRedis( stringRedisTemplate, uidProperties);
+        return new WorkerNodeRedis(stringRedisTemplate, uidProperties);
     }
 
     @Bean

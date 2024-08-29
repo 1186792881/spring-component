@@ -29,9 +29,8 @@ public interface UidGenerator {
      * Get a unique ID
      *
      * @return UID
-     * @throws UidGenerateException
      */
-    long getUID() throws UidGenerateException;
+    long getUID();
 
     /**
      * Parse the UID into elements which are used to generate the UID. <br>

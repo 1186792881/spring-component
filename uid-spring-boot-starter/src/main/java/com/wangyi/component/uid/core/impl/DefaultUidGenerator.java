@@ -105,7 +105,7 @@ public class DefaultUidGenerator implements UidGenerator, InitializingBean {
     }
 
     @Override
-    public long getUID() throws UidGenerateException {
+    public long getUID() {
         try {
             return nextId();
         } catch (Exception e) {
