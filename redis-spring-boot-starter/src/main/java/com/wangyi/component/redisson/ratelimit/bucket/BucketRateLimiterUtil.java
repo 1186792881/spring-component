@@ -71,7 +71,7 @@ public class BucketRateLimiterUtil {
             BucketRateLimiterProperties.LimiterConfig limiterConfig = bucketRateLimiterProperties.getLimiterConfig(key);
             if (null != limiterConfig) {
                 rateLimiter.setRate(RateType.OVERALL, limiterConfig.getRate(), limiterConfig.getRateInterval(), RateIntervalUnit.MILLISECONDS);
-                log.info("更新限流速率完成, key: {},  limiterConfig: {}", key, JSONUtil.toJsonStr(limiterConfig));
+                log.debug("更新限流速率完成, key: {},  limiterConfig: {}", key, JSONUtil.toJsonStr(limiterConfig));
             }
         });
     }

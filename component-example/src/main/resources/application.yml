@@ -52,7 +52,7 @@ spring:
     redis:
       time-to-live: 86400000
       cache-null-values: true
-      key-prefix: 'example:'
+      key-prefix: '${spring.application.name}:'
 
  #日志
 logging:

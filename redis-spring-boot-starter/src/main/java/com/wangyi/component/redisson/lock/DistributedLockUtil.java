@@ -29,7 +29,7 @@ public class DistributedLockUtil {
     /**
      * redisson 锁
      * @param key 锁的key
-     * @param waitTime 获取锁最大等待时间
+     * @param waitTime 获取锁最大等待时间, -1不等待
      * @param unit 时间单位
      * @param supplier 要加锁的执行逻辑
      * @return
@@ -65,6 +65,24 @@ public class DistributedLockUtil {
     public <T> T tryLock(String key, long waitTime, TimeUnit unit, Supplier<T> supplier) {
         try {
             return tryLockWithThrows(key, waitTime, unit, supplier::get);
+        } catch (DistributedLockException e) {
+            throw e;
+        } catch (Throwable e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 获取锁, 取不到抛出异常
+     * @param key
+     * @param supplier
+     * @return
+     * @param <T>
+     */
+    public <T> T tryLock(String key, Supplier<T> supplier) {
+        try {
+            return tryLockWithThrows(key, -1, TimeUnit.MILLISECONDS, supplier::get);
         } catch (DistributedLockException e) {
             throw e;
         } catch (Throwable e) {

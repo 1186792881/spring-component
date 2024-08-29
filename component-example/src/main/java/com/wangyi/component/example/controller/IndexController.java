@@ -90,7 +90,7 @@ public class IndexController {
 
     @PostMapping("/index1")
     public Result<String> index1(@RequestParam String name) {
-        return distributedLockUtil.tryLock(name, -1, TimeUnit.SECONDS, () -> {
+        return distributedLockUtil.tryLock(name, () -> {
             return Result.success("hello " + name);
         });
     }

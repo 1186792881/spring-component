@@ -29,12 +29,12 @@ public @interface DistributedLock {
      * 默认-1, 不等待, 获取不到锁直接失败
      * @return
      */
-    int waitTime() default -1;
+    long waitTime() default -1;
 
     /**
      * 锁时间单位
      * @return
      */
-    TimeUnit timeUnit() default TimeUnit.SECONDS;
+    TimeUnit timeUnit() default TimeUnit.MILLISECONDS;
 
 }

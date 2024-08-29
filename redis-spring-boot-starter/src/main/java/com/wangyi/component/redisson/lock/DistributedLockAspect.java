@@ -45,7 +45,7 @@ public class DistributedLockAspect {
         DistributedLock distributedLock = method.getAnnotation(DistributedLock.class);
         String keyPrefix = StringUtils.hasLength(distributedLock.keyPrefix()) ? distributedLock.keyPrefix() : SpElUtil.getMethodKey(method);
         String key = SpElUtil.parseSpEl(method, distributedLock.key(), joinPoint.getArgs());
-        int waitTime = distributedLock.waitTime();
+        long waitTime = distributedLock.waitTime();
         TimeUnit timeUnit = distributedLock.timeUnit();
         return distributedLockUtil.tryLockWithThrows(keyPrefix + ":" + key, waitTime, timeUnit, joinPoint::proceed);
     }
