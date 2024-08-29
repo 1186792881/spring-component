@@ -1,11 +1,21 @@
 package com.wangyi.component.encrypt.api.handler;
 
-public interface EncryptHandler {
+import com.wangyi.component.encrypt.api.key.EncryptApiKeyProvider;
 
-    boolean support(String encryptType);
+public abstract class EncryptHandler {
 
-    String encrypt(EncryptBody body);
+    private final EncryptApiKeyProvider encryptApiKeyProvider;
 
-    String decrypt(EncryptBody body);
+    public EncryptHandler(EncryptApiKeyProvider encryptApiKeyProvider) {
+        this.encryptApiKeyProvider = encryptApiKeyProvider;
+    }
+
+    public EncryptApiKeyProvider getEncryptApiKeyProvider() {
+        return encryptApiKeyProvider;
+    }
+
+    public abstract String encrypt(String body);
+
+    public abstract String decrypt(String body);
 
 }

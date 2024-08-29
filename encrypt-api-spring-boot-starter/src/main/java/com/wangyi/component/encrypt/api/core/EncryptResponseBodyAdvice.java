@@ -4,8 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangyi.component.base.vo.Result;
 import com.wangyi.component.encrypt.api.annotation.EncryptResponseBody;
-import com.wangyi.component.encrypt.api.handler.EncryptBody;
 import com.wangyi.component.encrypt.api.handler.EncryptHandler;
+import com.wangyi.component.encrypt.api.handler.EncryptHandlerHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -38,7 +36,7 @@ import java.util.Objects;
 @Slf4j
 public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Result> {
 
-    private final List<EncryptHandler> encryptHandlerList;
+    private final EncryptHandlerHolder encryptHandlerHolder;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -67,23 +65,11 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice<Result> {
             return body;
         }
 
-        EncryptHandler encryptHandler = getEncryptHandler(encryptResponseBody.encryptType());
-        EncryptBody encryptBody = new EncryptBody();
-        encryptBody.setBody(plainData);
-        encryptBody.setEncryptType(encryptResponseBody.encryptType());
-        encryptBody.setEncryptKeyType(encryptResponseBody.encryptKeyType());
-        String encryptData = encryptHandler.encrypt(encryptBody);
+        EncryptHandler encryptHandler = encryptHandlerHolder.getEncryptHandler(encryptResponseBody.encryptType());
+        String encryptData = encryptHandler.encrypt(plainData);
         body = Result.result(body.getCode(), body.getMsg(), encryptData, body.getMsgArgs());
         log.info("加密响应: {}", objectMapper.writeValueAsString(body));
         return body;
-    }
-
-    private EncryptHandler getEncryptHandler(String encryptType) {
-        EncryptHandler encryptHandler = encryptHandlerList.stream()
-                .filter(handler -> handler.support(encryptType))
-                .findFirst().orElse(null);
-        Assert.notNull(encryptHandler, "未找到 " + encryptType + " 加解密处理器");
-        return encryptHandler;
     }
 
     private EncryptResponseBody getEncrypt(MethodParameter returnType) {

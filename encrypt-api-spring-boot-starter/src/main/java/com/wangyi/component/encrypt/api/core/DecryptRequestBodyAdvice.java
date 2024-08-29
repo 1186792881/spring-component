@@ -3,8 +3,8 @@ package com.wangyi.component.encrypt.api.core;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wangyi.component.encrypt.api.annotation.DecryptRequestBody;
-import com.wangyi.component.encrypt.api.handler.EncryptBody;
 import com.wangyi.component.encrypt.api.handler.EncryptHandler;
+import com.wangyi.component.encrypt.api.handler.EncryptHandlerHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -13,7 +13,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice;
 
@@ -22,7 +21,6 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -41,7 +39,7 @@ import java.util.Objects;
 @Slf4j
 public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
 
-    private final List<EncryptHandler> encryptHandlerList;
+    private final EncryptHandlerHolder encryptHandlerHolder;
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -65,12 +63,8 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
 
         // 解密
         if (!StrUtil.isEmpty(body)) {
-            EncryptHandler encryptHandler = getEncryptHandler(decryptRequestBody.encryptType());
-            EncryptBody encryptBody = new EncryptBody();
-            encryptBody.setBody(body);
-            encryptBody.setEncryptType(decryptRequestBody.encryptType());
-            encryptBody.setEncryptKeyType(decryptRequestBody.encryptKeyType());
-            body = encryptHandler.decrypt(encryptBody);
+            EncryptHandler encryptHandler = encryptHandlerHolder.getEncryptHandler(decryptRequestBody.encryptType());
+            body = encryptHandler.decrypt(body);
         }
 
         // 将解密之后的body数据重新封装为HttpInputMessage作为当前方法的返回值
@@ -97,14 +91,6 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
     @Override
     public Object handleEmptyBody(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
         return body;
-    }
-
-    private EncryptHandler getEncryptHandler(String encryptType) {
-        EncryptHandler encryptHandler = encryptHandlerList.stream()
-                .filter(handler -> handler.support(encryptType))
-                .findFirst().orElse(null);
-        Assert.notNull(encryptHandler, "未找到 " + encryptType + " 加解密处理器");
-        return encryptHandler;
     }
 
     private DecryptRequestBody getDecrypt(MethodParameter parameter) {

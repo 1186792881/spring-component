@@ -1,6 +1,6 @@
 package com.wangyi.component.encrypt.api.annotation;
 
-import com.wangyi.component.encrypt.api.enums.EncryptKeyType;
+import com.wangyi.component.encrypt.api.enums.EncryptType;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -14,8 +14,5 @@ import java.lang.annotation.Target;
 @Documented
 @Inherited
 public @interface DecryptRequestBody {
-
-    String encryptType();
-
-    EncryptKeyType encryptKeyType() default EncryptKeyType.SECRET_KEY;
+    EncryptType encryptType();
 }

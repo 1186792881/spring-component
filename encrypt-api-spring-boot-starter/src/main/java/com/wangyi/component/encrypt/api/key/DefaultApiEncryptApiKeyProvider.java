@@ -1,6 +1,9 @@
 package com.wangyi.component.encrypt.api.key;
 
 import com.wangyi.component.encrypt.api.config.EncryptApiProperties;
+import com.wangyi.component.encrypt.api.enums.EncryptType;
+
+import java.util.Map;
 
 /**
  * 默认的密钥提供者, 通过配置文件配置密钥
@@ -14,14 +17,12 @@ public class DefaultApiEncryptApiKeyProvider implements EncryptApiKeyProvider {
     }
 
     @Override
-    public EncryptKey getKey() {
-        EncryptKey encryptKey = new EncryptKey();
-        encryptKey.setAesKey(encryptApiProperties.getAes());
-        encryptKey.setDesKey(encryptApiProperties.getDes());
-        encryptKey.setRsaKey(encryptApiProperties.getRsa());
-        encryptKey.setSm2Key(encryptApiProperties.getSm2());
-        encryptKey.setSm4Key(encryptApiProperties.getSm4());
-        return encryptKey;
+    public EncryptKey getEncryptKey(EncryptType encryptType) {
+        Map<String, EncryptKey> encryptKeyMap = encryptApiProperties.getEncryptKey();
+        if (encryptKeyMap != null && encryptKeyMap.containsKey(encryptType.getValue())) {
+            return encryptKeyMap.get(encryptType.getValue());
+        }
+        return null;
     }
 
 }

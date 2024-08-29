@@ -6,6 +6,7 @@ import com.wangyi.component.base.vo.Result;
 import com.wangyi.component.encrypt.api.annotation.DecryptRequestBody;
 import com.wangyi.component.encrypt.api.annotation.EncryptResponseBody;
 import com.wangyi.component.encrypt.api.enums.EncryptType;
+import com.wangyi.component.encrypt.api.handler.impl.AesApiEncryptHandler;
 import com.wangyi.component.example.client.BingClient;
 import com.wangyi.component.example.constant.ExampleResultCode;
 import com.wangyi.component.example.repository.mysql.entity.User;
@@ -40,7 +41,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @Slf4j
